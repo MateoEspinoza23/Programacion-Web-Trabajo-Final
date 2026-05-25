@@ -1,0 +1,38 @@
+[
+    {
+      "nombre": "Machu Picchu",
+      "descripcion": "Maravilla del Mundo",
+      "rutas": "Lima, Arequipa",
+      "img": "/picchu.jpg"
+    },
+    {
+      "nombre": "Lineas de Nazca",
+      "descripcion": "Civilizaciones Antiguas",
+      "rutas": "Lima, Ica, Paracas",
+      "img": "/nazca.jpg"
+    },
+    {
+        "nombre": "Montaña de 7 Colores",
+        "descripcion": "Atractivo Natural",
+        "rutas": "Cusco, Checacupe",
+        "img": "/mont.jpg"
+    },
+    {
+        "nombre": "Lago Titicaca",
+        "descripcion": "Reserva Natural",
+        "rutas": "Puno, Cusco",
+        "img": "/titi.jpg"
+    },
+    {
+        "nombre": "Chan Chan",
+        "descripcion": "Ciudadela de Barro",
+        "rutas": "Lima, Trujillo",
+        "img": "/chan.jpg"
+    },
+    {
+        "nombre": "Centro de Lima",
+        "descripcion": "Turismo local",
+        "rutas": "Lima",
+        "img": "/lima.jpg"
+    }
+  ]
