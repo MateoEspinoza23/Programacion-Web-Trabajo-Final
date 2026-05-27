@@ -1,33 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
+
+//ARCHIVO JSON CON LOS LUGARES TURISTICOS
+import lugares from '../data/home.json'
+
 import './EstilosHome.css'
 
 const Home = () => {
 
-  //ESTOS ARREGLOS DE JS SOLO SON LLAMADOS EN FUNCION HOME. CUIDADO AL TOCAR "destinos".
+  // BUSCADOR, SE INICIALIZA EN BLANCO.
+  const[busqueda, setBusqueda] = useState("");
 
-  //PLACEHOLDER DE DESTINOS, LUEGO CAMBIAR A NOMBRES REALES
-  const destinos = [
-    "CIUDAD1",
-    "CIUDAD2",
-    "CIUDAD3"
-  ]
+  //DESTINOS PARA AUTOCOMPLETE.
+  const destinos = lugares.map( (lugar) => lugar.nombre);
 
-  //PLACEHOLDER DE LUGARES
-  const lugares =[
-    {
-      nombre: "Machu Picchu",
-      descripcion: "Maravilla del Mundo",
-      rutas: "Lima, Cusco, Arequipa",
-      img: "/picchu.jpg"
-    },
-    {
-      nombre: "Lineas de Nazca",
-      descripcion: "Civilizaciones Antiguas",
-      rutas: "Lima, Ica",
-      img: "/nazca.jpg"
-    }
-  ]
+  //MODELO DE FILTRACION DEL BUSCADOR.
+  const lugaresFiltrados = lugares.filter((lugar) =>
+    lugar.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   return (
     <>
@@ -41,8 +31,8 @@ const Home = () => {
 
       <nav className="Navegar_Turibus">
         {/* "OPCION 1" Y "OPCION 2" SON PLACEHOLDERS. CAMBIAR NOMBRES Y AGREGAR OPCIONES */}
-        <a href="/">OPCION 1</a> 
-        <a href="/">OPCION 2</a>
+        <a href="/">MI CUENTA</a> 
+        <a href="/">ASISTENCIA</a>
       </nav>
 
     </header>
@@ -63,12 +53,14 @@ const Home = () => {
       <div className="Buscador_Turibus">
         <Autocomplete
 
-          //AQUI SE INVOCA EL PLACEHOLDER DE LOS DESTINOS.
           options = {destinos} 
-          fullWidth
+          fullWidth //ESTETICO, PARA QUE EL BUSCADOR OCUPE TODO EL ANCHO POSIBLE.
+
+          onInputChange = {(___, nuevoValor) => {
+            setBusqueda(nuevoValor);
+          }}
 
           renderInput={(params) => (
-            //AQUI VOLVEMOS A USAR TEXTFIELD, PERO COMBINADO CON EL "Autocomplete".
             <TextField
               {...params}
               placeholder="INGRESA TU PROXIMO DESTINO"
@@ -83,10 +75,12 @@ const Home = () => {
 
 
     {/* PARTE DE LAS OPCIONES */}
+    
     <section className="Opciones_Turibus">
 
-      {lugares.map( (lugar, index) => (
+      {lugaresFiltrados.map( (lugar, index) => (
 
+        // AQUI SE CREAN LAS CARDS (CONTENEDOR) CON EL "index" PARA IDENTIFICAR CADA UNA
         <div className="Lugar_Turibus" key={index}>
 
           <img src={lugar.img} alt={lugar.nombre} />
@@ -102,7 +96,6 @@ const Home = () => {
           </p>
 
           <button>VER PASAJES</button> 
-          {/* ESTE BOTON DEBE DE SER UN COMPONENTE, EVALUAR ESO EN COMMIT 3. */}
 
         </div>
 
