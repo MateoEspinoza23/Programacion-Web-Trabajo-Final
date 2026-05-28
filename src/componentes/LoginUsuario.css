@@ -1,0 +1,61 @@
+/* ===== PAGINA ===== */
+.login-page {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    background: #f0f0f0 !important;
+}
+
+/* ===== TARJETA ===== */
+.login-card {
+    width: 100% !important;
+    max-width: 380px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+}
+
+/* ===== TITULO ===== */
+.login-titulo {
+    text-align: center !important;
+    font-weight: bold !important;
+    color: #1e3a8a !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* ===== ALERTA ===== */
+.login-alerta {
+    margin-bottom: 1rem !important;
+}
+
+/* ===== INPUTS ===== */
+.login-input {
+    margin-bottom: 1rem !important;
+}
+
+/* ===== RECORDAR ===== */
+.login-recordar {
+    margin-bottom: 1rem !important;
+}
+
+/* ===== BOTON ===== */
+.login-boton {
+    margin-bottom: 1rem !important;
+    background-color: #2563eb !important;
+}
+
+.login-boton:hover {
+    background-color: #1d4ed8 !important;
+}
+
+/* ===== LINK REGISTRO ===== */
+.login-switch {
+    text-align: center !important;
+    color: #555 !important;
+}
+
+.login-switch span {
+    color: #2563eb;
+    cursor: pointer;
+    text-decoration: underline;
+}
