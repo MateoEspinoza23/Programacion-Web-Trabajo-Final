@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Importaciones de tus compañeros
 import Home from './componentes/Home';
+import Asistencia from './componentes/Asistencia';
 import Login from './componentes/LoginUsuario';
 
 // 1. Importamos tus nuevos componentes (Tus módulos)
@@ -17,11 +18,11 @@ function App() {
         <Routes>
           {/* Rutas base del proyecto */}
           <Route path="/" element={<Home />} />
-          <Route path="/LoginUsuario" element={<Login />} />
-
+          <Route path="/Asistencia" element={<Asistencia />} />        
           {/* 2. Conectamos tus rutas (Puntos de acceso para el usuario) */}
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
+          <Route path="/LoginUsuario" element={<Login />}/>
 
         </Routes>
       </MainLayout>
