@@ -1,0 +1,27 @@
+[
+  {
+    "nombre": "Juan Pérez",
+    "correo": "juan@gmail.com",
+    "contraseña": "juan123"
+  },
+  {
+    "nombre": "María López",
+    "correo": "maria@gmail.com",
+    "contraseña": "maria123"
+  },
+  {
+    "nombre": "Carlos García",
+    "correo": "carlos@gmail.com",
+    "contraseña": "carlos123"
+  },
+  {
+    "nombre": "Ana Torres",
+    "correo": "ana@gmail.com",
+    "contraseña": "ana123456"
+  },
+  {
+    "nombre": "Admin",
+    "correo": "admin@turismo.com",
+    "contraseña": "admin123"
+  }
+]
