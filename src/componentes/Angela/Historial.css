@@ -1,0 +1,214 @@
+/* Historial.css */
+
+.historial-container {
+  display: flex;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.historial-main-content {
+  margin-left: 280px;
+  flex: 1;
+  padding: 30px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.historial-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* FILTROS */
+.filtros-superiores {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group-expand {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.label-style {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.input-style {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+}
+
+.boton-gris {
+  padding: 10px 20px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* TABS Y SELECT */
+.tab-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.select-style {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+}
+
+/* LISTADO DE TARJETAS */
+.reserva-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-reserva {
+  display: flex;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  align-items: center;
+  gap: 20px;
+}
+
+.card-image {
+  width: 140px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.hotel-title {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.detail-text {
+  margin: 1px 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.badge-base {
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Clases para estados dinámicos */
+.badge-completado { background-color: #eefdf5; color: #22c55e; }
+.badge-cancelado { background-color: #fef2f2; color: #ef4444; }
+.badge-proximo { background-color: #eff6ff; color: #3b82f6; }
+
+.right-side-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price-text {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.outline-button-details {
+  padding: 6px 15px;
+  background: white;
+  border: 1px solid #0ea5a8;
+  border-radius: 8px;
+  color: #0ea5a8;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.delete-icon-button {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-confirm-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-cancelar-modal {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+}
+
+.btn-eliminar-modal {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+}

@@ -1,0 +1,59 @@
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./Sidebar.css"; // Importamos los estilos separados
+
+function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Configuración de rutas (Mantenida intacta)
+  const menuItems = [
+    { name: "Inicio", path: "/", icon: "🏠" },
+    { name: "Crear Cuenta", path: "/registro", icon: "🔑" },
+    { name: "Inicio de Sesión", path: "/login-usuario", icon: "🔒" },
+    { name: "Mi Perfil", path: "/perfil", icon: "👤" },
+    { name: "Eventos y Promos", path: "/eventos", icon: "🎉" },
+    { name: "Reservas", path: "/reservas", icon: "🎟️" },
+    { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
+    { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },
+    { name: "Historial Reservas", path: "/historial", icon: "📅" },
+    { name: "Administración.", path: "/admin", icon: "📇" },
+  ];
+
+  return (
+    <div className="sidebar-container">
+      {/* LOGO TURIBUS */}
+      <div className="logo-section" onClick={() => navigate("/")}>
+        <span className="logo-icon">🚌</span>
+        <h2 className="logo-text">TuriBus</h2>
+      </div>
+
+      {/* MENÚ DE NAVEGACIÓN */}
+      <nav className="nav-container">
+        {menuItems.map((item, index) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <button
+              key={index}
+              onClick={() => navigate(item.path)}
+              className={`menu-button ${isActive ? "active" : ""}`}
+            >
+              <span className="menu-button-icon">{item.icon}</span>
+              {item.name}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* BOTÓN CERRAR SESIÓN */}
+      <div className="footer-section">
+        <button onClick={() => navigate("/login-usuario")} className="logout-button">
+          <span className="red-square"></span>
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Sidebar;

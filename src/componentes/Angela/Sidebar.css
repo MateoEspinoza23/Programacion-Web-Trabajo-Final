@@ -1,0 +1,94 @@
+/* Sidebar.css */
+
+.sidebar-container {
+  width: 250px;
+  height: 100vh;
+  background-color: #000000;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 20px 0;
+  z-index: 1000;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  padding: 0 25px 30px 25px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+  overflow-y: auto; /* Por si la lista es muy larga */
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 2px;
+  transition: background 0.2s;
+  font-weight: normal;
+  border-radius: 0px;
+}
+
+.menu-button-icon {
+  margin-right: 12px;
+  font-size: 1.1rem;
+}
+
+/* Clase para el botón activo */
+.menu-button.active {
+  background-color: #5dade2;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.footer-section {
+  padding: 20px 25px;
+  border-top: 1px solid #333;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+}
+
+.red-square {
+  width: 12px;
+  height: 18px;
+  background-color: #e74c3c;
+  margin-right: 15px;
+  display: inline-block;
+}
