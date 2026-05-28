@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 // Componentes globales del equipo
 import Home from './componentes/Home';
+import Asistencia from './componentes/Asistencia';
 import Login from './componentes/LoginUsuario';
 
 // Componentes desarrollados por Daniel Sandoval
@@ -24,11 +25,12 @@ function App() {
         <Routes>
           {/* Rutas principales del sistema */}
           <Route path="/" element={<Home />} />
-          <Route path="/LoginUsuario" element={<Login />} />
-
-          {/* Rutas asignadas a Daniel Sandoval */}
+          <Route path="/Asistencia" element={<Asistencia />} />        
+          {/* 2. Conectamos tus rutas (Puntos de acceso para el usuario) */}
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
+          <Route path="/LoginUsuario" element={<Login />}/>
+
         </Routes>
       </MainLayout>
     </BrowserRouter>

@@ -32,7 +32,7 @@ const Home = () => {
       <nav className="Navegar_Turibus">
         {/* "OPCION 1" Y "OPCION 2" SON PLACEHOLDERS. CAMBIAR NOMBRES Y AGREGAR OPCIONES */}
         <a href="/">MI CUENTA</a> 
-        <a href="/">ASISTENCIA</a>
+        <a href="/Asistencia">ASISTENCIA</a>
       </nav>
 
     </header>
