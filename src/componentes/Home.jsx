@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { TextField, Autocomplete } from '@mui/material';
 
 //ARCHIVO JSON CON LOS LUGARES TURISTICOS
@@ -31,7 +32,8 @@ const Home = () => {
 
       <nav className="Navegar_Turibus">
         {/* "OPCION 1" Y "OPCION 2" SON PLACEHOLDERS. CAMBIAR NOMBRES Y AGREGAR OPCIONES */}
-        <a href="/">MI CUENTA</a> 
+        <a href="/LoginUsuario">INICIAR SESION</a>
+        <a href="/RegistrarUsuario">REGISTRARSE</a>
         <a href="/Asistencia">ASISTENCIA</a>
       </nav>
 
