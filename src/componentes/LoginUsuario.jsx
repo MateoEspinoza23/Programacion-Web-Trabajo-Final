@@ -6,12 +6,12 @@ import usuarios from '../data/usuarios.json';
 import './LoginUsuario.css';
 
 const LoginUsuario = () => {
-    const [correo, setCorreo]                       = useState('');
-    const [contraseña, setContraseña]               = useState('');
-    const [errorCorreo, setErrorCorreo]             = useState('');
-    const [errorContraseña, setErrorContraseña]     = useState('');
-    const [error, setError]                         = useState('');
-    const [recordar, setRecordar]                   = useState(false);
+    const [correo, setCorreo] = useState('');
+    const [contraseña, setContraseña] = useState('');
+    const [errorCorreo, setErrorCorreo] = useState('');
+    const [errorContraseña, setErrorContraseña] = useState('');
+    const [error, setError] = useState('');
+    const [recordar, setRecordar] = useState(false);
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
     const navigate = useNavigate();
 

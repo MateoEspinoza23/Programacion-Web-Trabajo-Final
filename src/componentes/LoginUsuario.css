@@ -1,57 +1,60 @@
 /* ===== PAGINA ===== */
 .login-page {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    min-height: 100vh !important;
-    background: #f0f0f0 !important;
+    display: flex ;
+    justify-content: center ;
+    align-items: center ;
+    min-height: 100vh ;
+    background-image: url('/FondoLogin-Registro.png') ;
+    background-size: cover ;
+    background-position: center ;
+    background-repeat: no-repeat ;
 }
 
 /* ===== TARJETA ===== */
 .login-card {
-    width: 100% !important;
-    max-width: 380px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-    border-radius: 8px !important;
+    width: 100% ;
+    max-width: 380px ;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) ;
+    border-radius: 8px ;
 }
 
 /* ===== TITULO ===== */
 .login-titulo {
-    text-align: center !important;
-    font-weight: bold !important;
-    color: #1e3a8a !important;
-    margin-bottom: 1.5rem !important;
+    text-align: center ;
+    font-weight: bold ;
+    color: #1e3a8a ;
+    margin-bottom: 1.5rem ;
 }
 
 /* ===== ALERTA ===== */
 .login-alerta {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1rem ;
 }
 
 /* ===== INPUTS ===== */
 .login-input {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1rem ;
 }
 
 /* ===== RECORDAR ===== */
 .login-recordar {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1rem ;
 }
 
 /* ===== BOTON ===== */
 .login-boton {
-    margin-bottom: 1rem !important;
-    background-color: #2563eb !important;
+    margin-bottom: 1rem ;
+    background-color: #2563eb ;
 }
 
 .login-boton:hover {
-    background-color: #1d4ed8 !important;
+    background-color: #1d4ed8 ;
 }
 
 /* ===== LINK REGISTRO ===== */
 .login-switch {
-    text-align: center !important;
-    color: #555 !important;
+    text-align: center ;
+    color: #555 ;
 }
 
 .login-switch span {

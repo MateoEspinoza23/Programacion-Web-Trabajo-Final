@@ -5,7 +5,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // Componentes globales del equipo
 import Home from './componentes/Home';
 import Asistencia from './componentes/Asistencia';
-import Login from './componentes/LoginUsuario';
+import LoginUsuario from './componentes/LoginUsuario';
+import RegistrarUsuario from './componentes/RegistrarUsuario';
 
 // Componentes desarrollados por Daniel Sandoval
 import ReservaCheckout from './pages/Reservas/ReservaCheckout';
@@ -29,7 +30,8 @@ function App() {
           {/* 2. Conectamos tus rutas (Puntos de acceso para el usuario) */}
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
-          <Route path="/LoginUsuario" element={<Login />}/>
+          <Route path="/LoginUsuario" element={<LoginUsuario />}/>
+          <Route path="/RegistrarUsuario" element={<RegistrarUsuario />}/>
 
         </Routes>
       </MainLayout>
