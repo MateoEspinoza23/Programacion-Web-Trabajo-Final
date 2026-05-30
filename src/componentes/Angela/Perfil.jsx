@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "./Sidebar";
 import "./Perfil.css"; // Importamos los estilos
+import { AuthContext } from '../../context/Auth';
+
 
 function Perfil() {
+  const { usuario: usuarioGlobal } = useContext(AuthContext);
   // --- ESTADOS PARA CONTROL DE MODALES (Mantenidos) ---
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPassModal, setShowPassModal] = useState(false);
@@ -25,6 +28,25 @@ function Perfil() {
   // --- ESTADOS TEMPORALES PARA EDICIÓN (Mantenidos) ---
   const [tempData, setTempData] = useState({ ...usuario });
   const [passCheck, setPassCheck] = useState({ actual: "", nueva: "" });
+
+
+  useEffect(() => {
+    // Si la nube detecta un usuario activo, pisamos los datos estáticos de arriba
+    if (usuarioGlobal) {
+      setUsuario((prev) => {
+        const nuevoEstado = {
+          ...prev,
+          nombre: usuarioGlobal.nombre,
+          email: usuarioGlobal.correo, // Vinculamos 'correo' del Context con 'email' de tu vista
+        };
+        // También actualizamos el temporal de los modales para que al editar salgan tus datos reales
+        setTempData(nuevoEstado);
+        return nuevoEstado;
+      });
+    }
+  }, [usuarioGlobal]);
+
+
 
   // --- EFECTO: CARGA DE AVATAR ALEATORIO (Mantenido) ---
   useEffect(() => {

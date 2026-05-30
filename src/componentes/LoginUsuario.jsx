@@ -5,6 +5,9 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import usuarios from '../data/usuarios.json';
 import './LoginUsuario.css';
 
+import { useContext } from 'react';
+import { AuthContext } from '../context/Auth';
+
 const LoginUsuario = () => {
     const [correo, setCorreo] = useState('');
     const [contraseña, setContraseña] = useState('');
@@ -14,6 +17,7 @@ const LoginUsuario = () => {
     const [recordar, setRecordar] = useState(false);
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     useEffect(() => {
         const correoRecordado = localStorage.getItem('correo-recordado');
@@ -66,7 +70,19 @@ const LoginUsuario = () => {
         const usuarioLocal   = correo === correoLocal && contraseña === contraseñaLocal;
 
         if (usuarioJSON || usuarioLocal) {
-            navigate('/');
+            const datosUsuario = {
+                correo: correo,
+                nombre: usuarioJSON ? usuarioJSON.nombre : localStorage.getItem('user_name') || 'Usuario TuriBus',
+                rol: correo === 'admin@turibus.com' ? 'admin' : 'cliente' // 
+            };
+
+            login(datosUsuario);
+
+            if (datosUsuario.rol === 'admin') {
+                navigate('/admin/dashboard'); // Si eres tú, te manda directo a tu panel asimétrico
+            } else {
+                navigate('/'); // Si es cliente común, al Home
+            }
         } else {
             setError('Usuario o contraseña incorrectos.');
         }

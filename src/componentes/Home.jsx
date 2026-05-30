@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect, useContext} from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import lugares from '../data/home.json';
 import './EstilosHome.css';
+import { AuthContext } from '../context/Auth';
 
 const Home = () => {
+
+  const { usuario } = useContext(AuthContext);
+
+  // 👁️ El monitor para espiar el estado en la consola
+  console.log("%c[MONITOR DE SESIÓN EN HOME]", "color: #0ea5a8; font-weight: bold;", {
+    Hay_Usuario_Logueado: usuario ? "SÍ" : "NO",
+    Datos_Del_Usuario: usuario
+  });
+
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
   
