@@ -1,0 +1,59 @@
+/* ===== PAGINA ===== */
+.registro-page {
+    display: flex;
+    justify-content: center ;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('/FondoLogin-Registro.png');
+    background-size: cover ;
+    background-position: center ;
+    background-repeat: no-repeat ;
+}
+
+/* ===== TARJETA ===== */
+.registro-card {
+    width: 100% ;
+    max-width: 380px ;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px ;
+}
+
+/* ===== TITULO ===== */
+.registro-titulo {
+    text-align: center ;
+    font-weight: bold ;
+    color: #1e3a8a ;
+    margin-bottom: 1.5rem ;
+}
+
+/* ===== ALERTAS ===== */
+.registro-alerta {
+    margin-bottom: 1rem;
+}
+
+/* ===== INPUTS ===== */
+.registro-input {
+    margin-bottom: 1rem;
+}
+
+/* ===== BOTON ===== */
+.registro-boton {
+    margin-bottom: 1rem ;
+    background-color: #2563eb ;
+}
+
+.registro-boton:hover {
+    background-color: #1d4ed8;
+}
+
+/* ===== LINK LOGIN ===== */
+.registro-switch {
+    text-align: center ;
+    color: #555 ;
+}
+
+.registro-switch span {
+    color: #2563eb;
+    cursor: pointer;
+    text-decoration: underline;
+}
