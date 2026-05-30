@@ -1,0 +1,138 @@
+/* ===== PAGINA ===== */
+.eventos-page {
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+/* ===== ENCABEZADO ===== */
+.eventos-header {
+    padding: 12px 24px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.eventos-breadcrumb {
+    font-size: 13px !important;
+    color: #666 !important;
+}
+
+/* ===== CONTENIDO ===== */
+.eventos-contenido {
+    display: flex !important;
+    gap: 24px !important;
+    padding: 24px !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+}
+
+/* ===== FILTROS ===== */
+.eventos-filtros {
+    width: 220px !important;
+    min-width: 220px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.eventos-filtro-item {
+    background: #fff !important;
+}
+
+/* ===== LISTA ===== */
+.eventos-lista {
+    flex: 1 !important;
+}
+
+/* ===== BUSCADOR ===== */
+.eventos-buscador {
+    background: #fff !important;
+    margin-bottom: 12px !important;
+}
+
+/* ===== RESULTADOS ===== */
+.eventos-resultados {
+    color: #888 !important;
+    margin-bottom: 16px !important;
+    font-size: 13px !important;
+}
+
+/* ===== CARD ===== */
+.evento-card {
+    display: flex !important;
+    flex-direction: row !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* ===== IMAGEN ===== */
+.evento-card-img-wrap {
+    position: relative !important;
+    width: 260px !important;
+    min-width: 260px !important;
+}
+
+.evento-card-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* ===== BADGE FECHA ===== */
+.evento-fecha-badge {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    background: #e53935 !important;
+    color: #fff !important;
+    padding: 6px 12px !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+}
+
+/* ===== CHIP CATEGORIA ===== */
+.evento-chip {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+}
+
+/* ===== CONTENIDO CARD ===== */
+.evento-card-content {
+    flex: 1 !important;
+    padding: 16px !important;
+}
+
+.evento-titulo {
+    font-size: 18px !important;
+    font-weight: bold !important;
+    margin-bottom: 8px !important;
+    color: #1a1a1a !important;
+}
+
+.evento-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-bottom: 4px !important;
+}
+
+.evento-desc {
+    color: #666 !important;
+    margin-top: 8px !important;
+    font-size: 13px !important;
+}
+
+/* ===== ACCIONES CARD ===== */
+.evento-card-actions {
+    display: flex !important;
+    align-items: flex-end !important;
+    padding: 16px !important;
+}
+
+/* ===== VACIO ===== */
+.eventos-vacio {
+    text-align: center !important;
+    color: #999 !important;
+    margin-top: 2rem !important;
+}

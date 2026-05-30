@@ -12,6 +12,8 @@ import RegistrarUsuario from './componentes/RegistrarUsuario';
 // Componentes desarrollados por Daniel Sandoval
 import ReservaCheckout from './pages/Reservas/ReservaCheckout';
 import CrudHoteles from './pages/Admin/CrudHoteles';
+import LoginUsuario from './componentes/LoginUsuario';
+import Eventos from './componentes/Eventos';
 
 function App() {
   return (
@@ -20,14 +22,15 @@ function App() {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/LoginUsuario" element={<Login />} />
+          <Route path="/LoginUsuario" element={<LoginUsuario />} />
           <Route path="/RegistrarUsuario" element={<RegistrarUsuario />} />
           <Route path="/Asistencia" element={<Asistencia />} />
 
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
-
           <Route path="/Reserva/:destino" element={<Reserva />} />
+          <Route path="/Eventos" element={<Eventos />} />
+
         </Routes>
       </MainLayout>
     </BrowserRouter>

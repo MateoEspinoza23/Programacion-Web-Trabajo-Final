@@ -9,10 +9,10 @@ function Sidebar() {
   // Configuración de rutas (Mantenida intacta)
   const menuItems = [
     { name: "Inicio", path: "/", icon: "🏠" },
-    { name: "Crear Cuenta", path: "/registro", icon: "🔑" },
-    { name: "Inicio de Sesión", path: "/login-usuario", icon: "🔒" },
+    { name: "Crear Cuenta", path: "/RegistrarUsuario", icon: "🔑" },
+    { name: "Inicio de Sesión", path: "/LoginUsuario", icon: "🔒" },
     { name: "Mi Perfil", path: "/perfil", icon: "👤" },
-    { name: "Eventos y Promos", path: "/eventos", icon: "🎉" },
+    { name: "Eventos y Promos", path: "/Eventos", icon: "🎉" },
     { name: "Reservas", path: "/reservas", icon: "🎟️" },
     { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
     { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },

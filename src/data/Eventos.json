@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "titulo": "Festival Gastronómico",
+        "categoria": "Entretenimiento",
+        "fecha": "20 Jul",
+        "mes": "Jul",
+        "dia": "20",
+        "lugar": "Lima",
+        "descripcion": "Lo mejor de la gastronomía peruana con chefs reconocidos, talleres y degustaciones.",
+        "img": "./festgast.jpg"
+    },
+    {
+        "id": 2,
+        "titulo": "Feria del Libro Lima",
+        "categoria": "Cultura",
+        "fecha": "25 Jul",
+        "mes": "Jul",
+        "dia": "25",
+        "lugar": "Lima",
+        "descripcion": "La feria del libro más grande del Perú con autores nacionales e internacionales.",
+        "img": "./FeriaLibro.jpg"
+    },
+    {
+        "id": 3,
+        "titulo": "Concierto en el Centro de Lima",
+        "categoria": "Entretenimiento",
+        "fecha": "10 Jul",
+        "mes": "Jul",
+        "dia": "10",
+        "lugar": "Lima",
+        "descripcion": "Las mejores bandas peruanas en vivo en el corazón histórico de Lima.",
+        "img": "concierto.jpg"
+    },
+    {
+        "id": 4,
+        "titulo": "Festival de Vendimia",
+        "categoria": "Entretenimiento",
+        "fecha": "5 Mar",
+        "mes": "Mar",
+        "dia": "5",
+        "lugar": "Ica",
+        "descripcion": "El festival más famoso de la costa peruana celebrando la cosecha de uvas y la producción de pisco.",
+        "img": "./Vendimia.jpg"
+    },
+    {
+        "id": 5,
+        "titulo": "Festival de la Candelaria",
+        "categoria": "Cultura",
+        "fecha": "2 Feb",
+        "mes": "Feb",
+        "dia": "2",
+        "lugar": "Puno",
+        "descripcion": "El festival folclórico más grande de América con danzas típicas y trajes tradicionales del altiplano.",
+        "img": "./Candelaria.jpg"
+    },
+
+    {
+        "id": 6,
+        "titulo": "Festival de la Marinera",
+        "categoria": "Cultura",
+        "fecha": "15 Jun",
+        "mes": "Jun",
+        "dia": "15",
+        "lugar": "Trujillo",
+        "descripcion": "El festival de marinera más importante del Perú con participantes de todo el país.",
+        "img": "Festival_Marinera.png"
+    },
+    {
+        "id": 7,
+        "titulo": "Festival de Primavera",
+        "categoria": "Entretenimiento",
+        "fecha": "23 Sep",
+        "mes": "Sep",
+        "dia": "23",
+        "lugar": "Trujillo",
+        "descripcion": "Uno de los festivales más coloridos del norte del Perú con desfiles, música y danzas típicas.",
+        "img": "./Primavera.jpg"
+    }
+]
