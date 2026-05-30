@@ -1,31 +1,33 @@
 import React from 'react';
 import MainLayout from './componentes/MainLayout';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Reserva from "./componentes/Reserva";
 
-// Importaciones de tus compañeros
+// Componentes globales del equipo
 import Home from './componentes/Home';
+import Login from './componentes/LoginUsuario';
 import Asistencia from './componentes/Asistencia';
-import LoginUsuario from './componentes/LoginUsuario';
 import RegistrarUsuario from './componentes/RegistrarUsuario';
 
-// 1. Importamos tus nuevos componentes (Tus módulos)
+// Componentes desarrollados por Daniel Sandoval
 import ReservaCheckout from './pages/Reservas/ReservaCheckout';
 import CrudHoteles from './pages/Admin/CrudHoteles';
 
 function App() {
   return (
     <BrowserRouter>
+
       <MainLayout>
         <Routes>
-          {/* Rutas base del proyecto */}
           <Route path="/" element={<Home />} />
-          <Route path="/Asistencia" element={<Asistencia />} />        
-          {/* 2. Conectamos tus rutas (Puntos de acceso para el usuario) */}
+          <Route path="/LoginUsuario" element={<Login />} />
+          <Route path="/RegistrarUsuario" element={<RegistrarUsuario />} />
+          <Route path="/Asistencia" element={<Asistencia />} />
+
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
-          <Route path="/LoginUsuario" element={<LoginUsuario />}/>
-          <Route path="/RegistrarUsuario" element={<RegistrarUsuario />}/>
 
+          <Route path="/Reserva/:destino" element={<Reserva />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>

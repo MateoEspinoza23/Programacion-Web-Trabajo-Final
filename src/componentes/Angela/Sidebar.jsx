@@ -22,13 +22,14 @@ function Sidebar() {
 
   return (
     <div className="sidebar-container">
-      {/* LOGO TURIBUS */}
-      <div className="logo-section" onClick={() => navigate("/")}>
-        <span className="logo-icon">🚌</span>
-        <h2 className="logo-text">TuriBus</h2>
+      <div className="logo-section" onClick={() => navigate("/")} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 0', cursor: 'pointer' }}>
+        <img
+          src="/Rumbo_Infinito.png"
+          alt="TuriBus Logo"
+          style={{ height: '95px', width: 'auto', objectFit: 'contain' }}
+        />
       </div>
 
-      {/* MENÚ DE NAVEGACIÓN */}
       <nav className="nav-container">
         {menuItems.map((item, index) => {
           const isActive = location.pathname === item.path;
@@ -45,7 +46,6 @@ function Sidebar() {
         })}
       </nav>
 
-      {/* BOTÓN CERRAR SESIÓN */}
       <div className="footer-section">
         <button onClick={() => navigate("/login-usuario")} className="logout-button">
           <span className="red-square"></span>
