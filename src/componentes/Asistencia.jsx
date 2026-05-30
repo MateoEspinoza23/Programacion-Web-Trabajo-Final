@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './EstilosAsistencia.css';
-import { TextField, MenuItem, Button, Box } from '@mui/material';
+
+import {
+  TextField,
+  MenuItem,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from '@mui/material';
 
 const Asistencia = () => {
+
+    const [titulo, setTitulo] = useState("");
+    const [categoria, setCategoria] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [abrirResumen, setAbrirResumen] = useState(false);
+
     return (
            <>
                 <section className="Banner_Asistencia" style={{ width: '100%' }}>
@@ -12,35 +27,76 @@ const Asistencia = () => {
 
                     <h1>SOPORTE TECNICO</h1>
 
-                    <p>ESTAMOS AQUI PARA AYUDARTE</p>
-                    <p>ENVIA TU CASO Y TE AYUDAREMOS LO ANTES POSIBLE</p>
+                    <p>Estamos aqui para ayudarte</p>
+                    <p>Envia tu caso para ayudarte lo antes posible</p>
                 </section>
 
                 <section className="Formulario_Asistencia" style={{ padding: '20px' }}>
                     <div className='Contenedor_Formulario'>
                         <h2>REPORTAR UN PROBLEMA</h2>
 
-                        <p>COMPLETAR Y ENVIAR EL SIGUIENTE FORMULARIO</p>
+                        <p>Completa y envia el siguiente formulario</p>
 
                         {}
-                        <TextField label='TITULO DEL PROBLEMA' fullWidth />
+                        <TextField 
+                        label='Titulo' 
+                        fullWidth 
+                        value = {titulo}
+                        onChange={(e) => setTitulo(e.target.value)}/>
 
-                        {/* EL USUARIO SELECCIONA EL TIPO DE PROBLEMA */}
-                        <TextField select label='SELECCIONA CATEGORIA' fullWidth>
-                            <MenuItem value="op1">OPCION 1</MenuItem>
-                            <MenuItem value="op2">OPCION 2</MenuItem>
-                            <MenuItem value="op3">OPCION 3</MenuItem>
+                        <TextField
+                        select
+                        label="Categoria"
+                        fullWidth
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}
+                        >
+                        <MenuItem value="Problema con pasaje">PROBLEMA CON PASAJE</MenuItem>
+                        <MenuItem value="Problema con cuenta">PROBLEMA CON CUENTA</MenuItem>
+                        <MenuItem value="Otro problema">OTRO PROBLEMA</MenuItem>
                         </TextField>
 
                         {}
-                        <TextField label='DESCRIPCION DETALLADA' multiline fullWidth rows={6} />
+                        <TextField 
+                        label='Descripcion' 
+                        multiline 
+                        fullWidth 
+                        rows={6}
+                        value = {descripcion}
+                        onChange={(e) => setDescripcion(e.target.value)} />
 
                         {}
-                        <Button variant="contained" className='Boton_Formulario'>
+                        <Button 
+                        variant="contained" 
+                        className='Boton_Formulario'
+                        onClick={() => setAbrirResumen(true)}>
                             ENVIAR FORMULARIO
                         </Button>
                     </div>
                 </section>
+
+            <Dialog
+                    open={abrirResumen}
+                    onClose={() => setAbrirResumen(false)}
+                    fullWidth
+                    maxWidth="sm"
+                >
+
+                <DialogTitle>Formulario enviado</DialogTitle>
+
+                <DialogContent>
+                    <p><strong>Título:</strong> {titulo}</p>
+                    <p><strong>Categoría:</strong> {categoria}</p>
+                    <p><strong>Descripción:</strong> {descripcion}</p>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => setAbrirResumen(false)}>
+                        CERRAR
+                    </Button>
+                </DialogActions>
+
+            </Dialog>
             </>
     );
 }
