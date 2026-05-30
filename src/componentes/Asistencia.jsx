@@ -2,25 +2,9 @@ import React from 'react';
 import './EstilosAsistencia.css';
 import { TextField, MenuItem, Button, Box } from '@mui/material';
 
-import Sidebar from './Angela/Sidebar';
-
 const Asistencia = () => {
-
     return (
-        <Box sx={{ display: 'flex', width: '100vw', minHeight: '100vh' }}>
-            {}
-            <Sidebar />
-
-            {}
-            <Box 
-                component="main" 
-                sx={{ 
-                    flexGrow: 1, 
-                    paddingLeft: '260px', 
-                    display: 'flex',
-                    flexDirection: 'column'
-                }}
-            >
+           <>
                 <section className="Banner_Asistencia" style={{ width: '100%' }}>
                     <div className='Icono_Asistencia'>
                         <img src="/pregunta.png" alt="Pregunta" />
@@ -57,8 +41,7 @@ const Asistencia = () => {
                         </Button>
                     </div>
                 </section>
-            </Box>
-        </Box>
+            </>
     );
 }
 
