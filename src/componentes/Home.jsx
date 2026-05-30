@@ -11,9 +11,14 @@ const Home = () => {
   const destinos = lugares.map((lugar) => lugar.nombre);
 
   
+  
   const lugaresFiltrados = lugares.filter((lugar) =>
     lugar.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  
+  
+
+
+);
 
   return (
     <>
@@ -64,9 +69,19 @@ const Home = () => {
                 </button>
               </div>
             </div>
+
+            
+
           ))}
         </section>
+          
+
+            
+
+
       </>
+
+      
   );
 };
 

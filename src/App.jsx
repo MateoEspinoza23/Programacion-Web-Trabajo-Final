@@ -2,6 +2,7 @@ import React from 'react';
 import MainLayout from './componentes/MainLayout';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Reserva from "./componentes/Reserva";
+import AdminLugares from './componentes/COMPO_PESTAÑAS/AdminLugares';
 
 // Componentes globales del equipo
 import Home from './componentes/Home';
@@ -30,6 +31,7 @@ function App() {
           <Route path="/admin/hoteles" element={<CrudHoteles />} />
           <Route path="/Reserva/:destino" element={<Reserva />} />
           <Route path="/Eventos" element={<Eventos />} />
+          <Route path="/admin/lugares" element={<AdminLugares />} />
 
         </Routes>
       </MainLayout>
