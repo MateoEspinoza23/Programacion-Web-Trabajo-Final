@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
-
-
-import Sidebar from './Angela/Sidebar';
-
-
+import { useNavigate } from 'react-router-dom';
 import lugares from '../data/home.json';
 import './EstilosHome.css';
 
 const Home = () => {
-  
   const [busqueda, setBusqueda] = useState("");
-
+  const navigate = useNavigate();
   
   const destinos = lugares.map((lugar) => lugar.nombre);
 
@@ -21,21 +16,7 @@ const Home = () => {
   );
 
   return (
-    <Box sx={{ display: 'flex', width: '100vw', minHeight: '100vh' }}>
-      {}
-      <Sidebar />
-
-      {}
-      <Box 
-        component="main" 
-        sx={{ 
-          flexGrow: 1, 
-          paddingLeft: '260px', 
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
+    <>
         {}
         <section className="Banner_Turibus" style={{ width: '100%' }}>
           <h1 className="TituloWeb">
@@ -78,13 +59,14 @@ const Home = () => {
                 <p>
                   <strong>Rutas Populares: </strong>{lugar.rutas}
                 </p>
-                <button>Ver pasajes</button> 
+                <button onClick={() => navigate(`/Reserva/${lugar.nombre}`, { state: { destinoCompleto: lugar } })}>
+                          VER PASAJES
+                </button>
               </div>
             </div>
           ))}
         </section>
-      </Box>
-    </Box>
+      </>
   );
 };
 
