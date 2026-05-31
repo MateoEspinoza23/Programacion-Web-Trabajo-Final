@@ -20,14 +20,15 @@ function Perfil() {
   const [tempData, setTempData] = useState({ ...usuario });
   const [passCheck, setPassCheck] = useState({ actual: "", nueva: "" });
 
-  // 2. Efecto para cargar datos del JSON
   useEffect(() => {
     if (usuarioGlobal) {
       const correoBusqueda = usuarioGlobal.correo || usuarioGlobal.email;
       const usuarioEnEnJson = usuariosData ? usuariosData.find(u => u.correo === correoBusqueda) : null;
-
-      // Importante: usamos 'contraseña' porque así viene en tu JSON
       const contraReal = usuarioEnEnJson ? usuarioEnEnJson.contraseña : "";
+      const nombreArchivo = (usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : "usuario"))
+        .trim()
+        .split(" ")[0]
+        .toLowerCase();
 
       const nuevoEstado = {
         nombre: usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : ""),
@@ -36,8 +37,7 @@ function Perfil() {
         pais: usuarioGlobal.pais || (usuarioEnEnJson ? usuarioEnEnJson.pais : ""),
         ciudad: usuarioGlobal.ciudad || (usuarioEnEnJson ? usuarioEnEnJson.ciudad : ""),
         nacimiento: usuarioGlobal.nacimiento || "2000-01-01",
-        foto: usuarioGlobal.foto || `https://i.pravatar.cc/150?u=${correoBusqueda}`,
-        pasaporte: usuarioGlobal.pasaporte || "",
+        foto: `/${nombreArchivo}.jpg`,
         dni: usuarioGlobal.dni || "",
         password: contraReal, 
       };
@@ -45,16 +45,6 @@ function Perfil() {
       setTempData(nuevoEstado);
     }
   }, [usuarioGlobal]);
-
-  // 3. Efecto para la foto
-  useEffect(() => {
-    if (!usuario.foto || usuario.foto.includes("undefined")) {
-        const faceId = Math.floor(Math.random() * 70) + 1;
-        const urlRostro = `https://i.pravatar.cc/150?u=${faceId}`;
-        setUsuario((prev) => ({ ...prev, foto: urlRostro }));
-        setTempData((prev) => ({ ...prev, foto: urlRostro }));
-    }
-  }, [usuario.email]);
 
   const handleGuardar = (tipoModal) => {
     let usuarioActualizado;
@@ -116,8 +106,14 @@ function Perfil() {
                 </button>
               </div>
               <div className="personal-info-flex">
-                <img src={usuario.foto} alt="Perfil" className="profile-avatar" />
-                <div className="grid-info">
+                  <img 
+                    src={usuario.foto} 
+                    alt="Perfil" 
+                    className="profile-avatar" 
+                    onError={(e) => { 
+                      e.target.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; 
+                    }} 
+                  />                <div className="grid-info">
                   <div><label className="label-style">Nombre completo</label><p className="data-text">{usuario.nombre}</p></div>
                   <div><label className="label-style">País</label><p className="data-text">{usuario.pais}</p></div>
                   <div><label className="label-style">Correo electrónico</label><p className="data-text">{usuario.email}</p></div>
