@@ -5,7 +5,6 @@ import { AuthContext } from '../../context/Auth';
 import usuariosData from "../../data/usuarios.json"; 
 
 function Perfil() {
-  // 1. Única declaración del contexto
   const { usuario: usuarioGlobal, actualizarUsuario } = useContext(AuthContext);
   
   const [showEditModal, setShowEditModal] = useState(false);

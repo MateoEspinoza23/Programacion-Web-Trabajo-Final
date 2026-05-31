@@ -18,7 +18,6 @@ function Historial() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [idAEliminar, setIdAEliminar] = useState(null);
 
-  // --- NUEVOS ESTADOS PARA LA VENTANITA DE DETALLES ---
   const [reservaSeleccionada, setReservaSeleccionada] = useState(null);
   const [mostrarModalDetalle, setMostrarModalDetalle] = useState(false);
 
@@ -33,7 +32,6 @@ function Historial() {
           if (res.destino === "Líneas de Nazca") foto = "/nazca.jpg"; 
           if (res.destino === "Montaña de 7 Colores") foto = "/7colores.jpg";
           
-          // Retornamos la reserva con la nueva propiedad 'imagen'
           return { ...res, imagen: foto };
         });
       setReservas(filtradas);
@@ -50,7 +48,7 @@ function Historial() {
     setMostrarModal(false);
   };
 
-  // --- FUNCIÓN PARA ABRIR LA VENTANITA ---
+  //Abrir detalles:
   const verDetalles = (res) => {
     setReservaSeleccionada(res);
     setMostrarModalDetalle(true);
@@ -154,7 +152,6 @@ function Historial() {
         </div>
       </div>
 
-      {/* --- MODAL ELIMINAR (Ya lo tenías) --- */}
       {mostrarModal && (
         <div className="modal-overlay">
           <div className="modal-confirm-content">
@@ -181,7 +178,6 @@ function Historial() {
             </div>
 
             <div className="modal-detalle-body">
-              {/* Info Principal */}
               <div className="detalle-main-info">
                 <div className="reserva-card-horizontal">
                     <img src={reservaSeleccionada.imagen} alt={reservaSeleccionada.destino} className="card-image" />                  <div className="reserva-card-text">
