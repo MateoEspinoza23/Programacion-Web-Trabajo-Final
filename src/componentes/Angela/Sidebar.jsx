@@ -9,10 +9,10 @@ function Sidebar() {
   // Configuración de rutas (Mantenida intacta)
   const menuItems = [
     { name: "Inicio", path: "/", icon: "🏠" },
-    { name: "Crear Cuenta", path: "/registro", icon: "🔑" },
-    { name: "Inicio de Sesión", path: "/login-usuario", icon: "🔒" },
+    { name: "Crear Cuenta", path: "/RegistrarUsuario", icon: "🔑" },
+    { name: "Inicio de Sesión", path: "/LoginUsuario", icon: "🔒" },
     { name: "Mi Perfil", path: "/perfil", icon: "👤" },
-    { name: "Eventos y Promos", path: "/eventos", icon: "🎉" },
+    { name: "Eventos y Promos", path: "/Eventos", icon: "🎉" },
     { name: "Reservas", path: "/reservas", icon: "🎟️" },
     { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
     { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },
@@ -22,13 +22,14 @@ function Sidebar() {
 
   return (
     <div className="sidebar-container">
-      {/* LOGO TURIBUS */}
-      <div className="logo-section" onClick={() => navigate("/")}>
-        <span className="logo-icon">🚌</span>
-        <h2 className="logo-text">TuriBus</h2>
+      <div className="logo-section" onClick={() => navigate("/")} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 0', cursor: 'pointer' }}>
+        <img
+          src="/Rumbo_Infinito.png"
+          alt="TuriBus Logo"
+          style={{ height: '95px', width: 'auto', objectFit: 'contain' }}
+        />
       </div>
 
-      {/* MENÚ DE NAVEGACIÓN */}
       <nav className="nav-container">
         {menuItems.map((item, index) => {
           const isActive = location.pathname === item.path;
@@ -45,7 +46,6 @@ function Sidebar() {
         })}
       </nav>
 
-      {/* BOTÓN CERRAR SESIÓN */}
       <div className="footer-section">
         <button onClick={() => navigate("/login-usuario")} className="logout-button">
           <span className="red-square"></span>

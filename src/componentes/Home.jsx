@@ -1,112 +1,97 @@
-import React, { useState } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
-
-//ARCHIVO JSON CON LOS LUGARES TURISTICOS
-import lugares from '../data/home.json'
-
-import './EstilosHome.css'
+import React, { useState , useEffect, useContext} from 'react';
+import { TextField, Autocomplete, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import lugares from '../data/home.json';
+import './EstilosHome.css';
+import { AuthContext } from '../context/Auth';
 
 const Home = () => {
 
-  // BUSCADOR, SE INICIALIZA EN BLANCO.
-  const[busqueda, setBusqueda] = useState("");
+  const { usuario } = useContext(AuthContext);
 
-  //DESTINOS PARA AUTOCOMPLETE.
-  const destinos = lugares.map( (lugar) => lugar.nombre);
+  // 👁️ El monitor para espiar el estado en la consola
+  console.log("%c[MONITOR DE SESIÓN EN HOME]", "color: #0ea5a8; font-weight: bold;", {
+    Hay_Usuario_Logueado: usuario ? "SÍ" : "NO",
+    Datos_Del_Usuario: usuario
+  });
 
-  //MODELO DE FILTRACION DEL BUSCADOR.
+  const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate();
+  
+  const destinos = lugares.map((lugar) => lugar.nombre);
+
+  
+  
   const lugaresFiltrados = lugares.filter((lugar) =>
     lugar.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  
+  
+
+
+);
 
   return (
     <>
-
-    {/* BARRA NAVEGACION DE LA PAGINA */}
-    <header className="Barra_Turibus">
-
-      <div className="Logo_Turibus">
-        <img src="/logobus.jpg" alt="Logo"/>
-      </div>
-
-      <nav className="Navegar_Turibus">
-        {/* "OPCION 1" Y "OPCION 2" SON PLACEHOLDERS. CAMBIAR NOMBRES Y AGREGAR OPCIONES */}
-        <a href="/">MI CUENTA</a> 
-        <a href="/">ASISTENCIA</a>
-      </nav>
-
-    </header>
-    {/* BARRA NAVEGACION DE LA PAGINA */}
-
-
-
-    {/* PARTE DE BUSCADOR DE LA PAGINA */}
-    <section className="Banner_Turibus">
-      <h1 className="TituloWeb">
-        DESCUBRE LUGARES INCREIBLES
-      </h1>
-
-      <p>
-        EL PERU TE ESTA ESPERANDO
-      </p>
-
-      <div className="Buscador_Turibus">
-        <Autocomplete
-
-          options = {destinos} 
-          fullWidth //ESTETICO, PARA QUE EL BUSCADOR OCUPE TODO EL ANCHO POSIBLE.
-
-          onInputChange = {(___, nuevoValor) => {
-            setBusqueda(nuevoValor);
-          }}
-
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder="INGRESA TU PROXIMO DESTINO"
-              variant="standard"
-            />
-          )}
-        />
-      </div>
-    </section>
-    {/* PARTE BUSCADOR DE LA PAGINA */}
-
-
-
-    {/* PARTE DE LAS OPCIONES */}
-    
-    <section className="Opciones_Turibus">
-
-      {lugaresFiltrados.map( (lugar, index) => (
-
-        // AQUI SE CREAN LAS CARDS (CONTENEDOR) CON EL "index" PARA IDENTIFICAR CADA UNA
-        <div className="Lugar_Turibus" key={index}>
-
-          <img src={lugar.img} alt={lugar.nombre} />
-
-        <div className="Descripcion_Turibus">
-
-          <h2>{lugar.nombre}</h2> 
-
-          <p>{lugar.descripcion}</p>
+        {}
+        <section className="Banner_Turibus" style={{ width: '100%' }}>
+          <h1 className="TituloWeb">
+            Descubre Lugares Increíbles
+          </h1>
 
           <p>
-            <strong>Rutas Populares: </strong>{lugar.rutas}
+            ¡El Perú te está esperando!
           </p>
 
-          <button>VER PASAJES</button> 
+          <div className="Buscador_Turibus">
+            <Autocomplete
+              options={destinos} 
+              fullWidth
 
-        </div>
+              onInputChange={(___, nuevoValor) => {
+                setBusqueda(nuevoValor);
+              }}
 
-        </div>
-      ))
-      }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="INGRESA TU PROXIMO DESTINO"
+                  variant="standard"
+                />
+              )}
+            />
+          </div>
+        </section>
 
-    </section>
-    {/* PARTE DE LAS OPCIONES */}
+        {/* PARTE DE LAS OPCIONES */}
+        <section className="Opciones_Turibus" style={{ padding: '20px' }}>
+          {lugaresFiltrados.map((lugar, index) => (
+            <div className="Lugar_Turibus" key={index}>
+              <img src={lugar.img} alt={lugar.nombre} />
 
-    </>
+              <div className="Descripcion_Turibus">
+                <h2>{lugar.nombre}</h2> 
+                <p>{lugar.descripcion}</p>
+                <p>
+                  <strong>Rutas Populares: </strong>{lugar.rutas}
+                </p>
+                <button onClick={() => navigate(`/Reserva/${lugar.nombre}`, { state: { destinoCompleto: lugar } })}>
+                          VER PASAJES
+                </button>
+              </div>
+            </div>
+
+            
+
+          ))}
+        </section>
+          
+
+            
+
+
+      </>
+
+      
   );
 };
 
