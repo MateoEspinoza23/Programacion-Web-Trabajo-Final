@@ -9,13 +9,16 @@ import Home from './componentes/Home';
 import Login from './componentes/LoginUsuario';
 import Asistencia from './componentes/Asistencia';
 import RegistrarUsuario from './componentes/RegistrarUsuario';
-import Perfil from './componentes/Angela/Perfil';
 
 // Componentes desarrollados por Daniel Sandoval
 import ReservaCheckout from './pages/Reservas/ReservaCheckout';
 import CrudHoteles from './pages/Admin/CrudHoteles';
 import LoginUsuario from './componentes/LoginUsuario';
 import Eventos from './componentes/Eventos';
+
+//Componentes Angela
+import Perfil from './componentes/Angela/Perfil';
+import Historial from './componentes/Angela/Historial';
 
 function App() {
   return (
@@ -34,6 +37,10 @@ function App() {
           <Route path="/Eventos" element={<Eventos />} />
           <Route path="/admin/lugares" element={<AdminLugares />} />
           <Route path="/perfil" element={<Perfil />} />
+
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/historial" element={<Historial />} />
+
 
         </Routes>
       </MainLayout>

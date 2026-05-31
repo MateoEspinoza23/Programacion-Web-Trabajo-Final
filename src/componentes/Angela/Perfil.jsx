@@ -1,77 +1,77 @@
 import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "./Sidebar";
-import "./Perfil.css"; // Importamos los estilos
+import "./Perfil.css"; 
 import { AuthContext } from '../../context/Auth';
-
+import usuariosData from "../../data/usuarios.json"; 
 
 function Perfil() {
-  const { usuario: usuarioGlobal } = useContext(AuthContext);
-  // --- ESTADOS PARA CONTROL DE MODALES (Mantenidos) ---
+  const { usuario: usuarioGlobal, actualizarUsuario } = useContext(AuthContext);
+  
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPassModal, setShowPassModal] = useState(false);
   const [showDocsModal, setShowDocsModal] = useState(false);
 
-  // --- ESTADO DE INFORMACIÓN DE USUARIO (Mantenido) ---
   const [usuario, setUsuario] = useState({
-    nombre: "Usuario",
-    email: "usuario@ejemplo.com",
-    telefono: "987 654 321",
-    pais: "País",
-    ciudad: "Lima",
-    nacimiento: "2000-01-01",
-    foto: "",
-    pasaporte: "KD70986432",
-    dni: "123456789",
-    password: "123456",
+    nombre: "", email: "", telefono: "", pais: "", ciudad: "",
+    nacimiento: "", foto: "", pasaporte: "", dni: "", password: "",
   });
 
-  // --- ESTADOS TEMPORALES PARA EDICIÓN (Mantenidos) ---
   const [tempData, setTempData] = useState({ ...usuario });
   const [passCheck, setPassCheck] = useState({ actual: "", nueva: "" });
 
-
   useEffect(() => {
-    // Si la nube detecta un usuario activo, pisamos los datos estáticos de arriba
     if (usuarioGlobal) {
-      setUsuario((prev) => {
-        const nuevoEstado = {
-          ...prev,
-          nombre: usuarioGlobal.nombre,
-          email: usuarioGlobal.correo, // Vinculamos 'correo' del Context con 'email' de tu vista
-        };
-        // También actualizamos el temporal de los modales para que al editar salgan tus datos reales
-        setTempData(nuevoEstado);
-        return nuevoEstado;
-      });
+      const correoBusqueda = usuarioGlobal.correo || usuarioGlobal.email;
+      const usuarioEnEnJson = usuariosData ? usuariosData.find(u => u.correo === correoBusqueda) : null;
+      const contraReal = usuarioEnEnJson ? usuarioEnEnJson.contraseña : "";
+      const nombreArchivo = (usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : "usuario"))
+        .trim()
+        .split(" ")[0]
+        .toLowerCase();
+
+      const nuevoEstado = {
+        nombre: usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : ""),
+        email: correoBusqueda || "",
+        telefono: usuarioGlobal.telefono || (usuarioEnEnJson ? usuarioEnEnJson.telefono : ""),
+        pais: usuarioGlobal.pais || (usuarioEnEnJson ? usuarioEnEnJson.pais : ""),
+        ciudad: usuarioGlobal.ciudad || (usuarioEnEnJson ? usuarioEnEnJson.ciudad : ""),
+        nacimiento: usuarioGlobal.nacimiento || "2000-01-01",
+        foto: `/${nombreArchivo}.jpg`,
+        dni: usuarioGlobal.dni || "",
+        password: contraReal, 
+      };
+      setUsuario(nuevoEstado);
+      setTempData(nuevoEstado);
     }
   }, [usuarioGlobal]);
 
-
-
-  // --- EFECTO: CARGA DE AVATAR ALEATORIO (Mantenido) ---
-  useEffect(() => {
-    const faceId = Math.floor(Math.random() * 70) + 1;
-    const urlRostro = `https://i.pravatar.cc/150?u=${faceId}`;
-    setUsuario((prev) => ({ ...prev, foto: urlRostro }));
-    setTempData((prev) => ({ ...prev, foto: urlRostro }));
-  }, []);
-
-  // --- FUNCIONES DE MANEJO DE DATOS (Sin cambios) ---
   const handleGuardar = (tipoModal) => {
+    let usuarioActualizado;
+
     if (tipoModal === "pass") {
       if (passCheck.actual !== usuario.password) {
         alert("La contraseña actual es incorrecta.");
         return;
       }
-      setUsuario({ ...usuario, password: passCheck.nueva });
+      usuarioActualizado = { ...usuario, password: passCheck.nueva };
       setPassCheck({ actual: "", nueva: "" });
       setShowPassModal(false);
     } else {
-      setUsuario({ ...tempData });
+      usuarioActualizado = { ...tempData };
       if (tipoModal === "perfil") setShowEditModal(false);
       if (tipoModal === "docs") setShowDocsModal(false);
     }
-    alert("¡Cambios actualizados con éxito!");
+
+    setUsuario(usuarioActualizado);
+
+    if (actualizarUsuario) {
+      actualizarUsuario({
+        ...usuarioActualizado,
+        correo: usuarioActualizado.email 
+      });
+    }
+
+    alert("¡Cambios guardados con éxito!");
   };
 
   const handleChange = (e) => {
@@ -83,7 +83,6 @@ function Perfil() {
     <div className="perfil-container">
       <Sidebar />
 
-      {/* --- CONTENIDO PRINCIPAL --- */}
       <div className="perfil-main-content">
         <div className="perfil-wrapper">
           <h1 className="perfil-title">Mi Perfil</h1>
@@ -92,7 +91,6 @@ function Perfil() {
           </p>
 
           <div className="perfil-sections-gap">
-            {/* SECCIÓN: INFORMACIÓN PERSONAL */}
             <div className="section-card">
               <div className="card-header">
                 <h3 className="card-title">Información personal</h3>
@@ -107,62 +105,40 @@ function Perfil() {
                 </button>
               </div>
               <div className="personal-info-flex">
-                <img
-                  src={usuario.foto}
-                  alt="Perfil"
-                  className="profile-avatar"
-                />
-                <div className="grid-info">
-                  <div>
-                    <label className="label-style">Nombre completo</label>
-                    <p className="data-text">{usuario.nombre}</p>
-                  </div>
-                  <div>
-                    <label className="label-style">País</label>
-                    <p className="data-text">{usuario.pais}</p>
-                  </div>
-                  <div>
-                    <label className="label-style">Correo electrónico</label>
-                    <p className="data-text">{usuario.email}</p>
-                  </div>
-                  <div>
-                    <label className="label-style">Ciudad</label>
-                    <p className="data-text">{usuario.ciudad}</p>
-                  </div>
-                  <div>
-                    <label className="label-style">Teléfono</label>
-                    <p className="data-text">{usuario.telefono}</p>
-                  </div>
+                  <img 
+                    src={usuario.foto} 
+                    alt="Perfil" 
+                    className="profile-avatar" 
+                    onError={(e) => { 
+                      e.target.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"; 
+                    }} 
+                  />                <div className="grid-info">
+                  <div><label className="label-style">Nombre completo</label><p className="data-text">{usuario.nombre}</p></div>
+                  <div><label className="label-style">País</label><p className="data-text">{usuario.pais}</p></div>
+                  <div><label className="label-style">Correo electrónico</label><p className="data-text">{usuario.email}</p></div>
+                  <div><label className="label-style">Ciudad</label><p className="data-text">{usuario.ciudad}</p></div>
+                  <div><label className="label-style">Teléfono</label><p className="data-text">{usuario.telefono}</p></div>
                   <div>
                     <label className="label-style">F. Nacimiento</label>
-                    <p className="data-text">
-                      {usuario.nacimiento.split("-").reverse().join("/")}
-                    </p>
+                    <p className="data-text">{usuario.nacimiento.split("-").reverse().join("/")}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* SECCIÓN: SEGURIDAD */}
             <div className="section-card">
               <div className="card-header" style={{ marginBottom: 0 }}>
                 <div>
-                  <h3 className="card-title" style={{ marginBottom: "10px" }}>
-                    Seguridad de la cuenta
-                  </h3>
+                  <h3 className="card-title" style={{ marginBottom: "10px" }}>Seguridad de la cuenta</h3>
                   <label className="label-style">Contraseña:</label>
                   <p className="data-text">******</p>
                 </div>
-                <button
-                  onClick={() => setShowPassModal(true)}
-                  className="outline-button"
-                >
+                <button onClick={() => setShowPassModal(true)} className="outline-button">
                   Actualizar Contraseña
                 </button>
               </div>
             </div>
 
-            {/* SECCIÓN: DATOS DE DOCUMENTACIÓN */}
             <div className="section-card">
               <div className="card-header">
                 <h3 className="card-title">Datos personales</h3>
@@ -190,176 +166,60 @@ function Perfil() {
           </div>
         </div>
 
-        {/* --- MODALES DE EDICIÓN --- */}
-
-        {/* MODAL: EDITAR PERFIL */}
+        {/* --- MODALES --- */}
         {showEditModal && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h2 className="card-title" style={{ textAlign: "center", marginBottom: "20px" }}>
-                Editar Perfil
-              </h2>
+              <h2 className="card-title" style={{ textAlign: "center", marginBottom: "20px" }}>Editar Perfil</h2>
               <div className="modal-grid">
                 <div style={{ gridColumn: "span 2" }}>
                   <label className="label-style">Nombre completo</label>
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={tempData.nombre}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
+                  <input type="text" name="nombre" value={tempData.nombre} onChange={handleChange} className="modal-input" />
                 </div>
                 <div style={{ gridColumn: "span 2" }}>
                   <label className="label-style">Correo electrónico</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={tempData.email}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
+                  <input type="email" name="email" value={tempData.email} onChange={handleChange} className="modal-input" />
                 </div>
-                <div>
-                  <label className="label-style">País</label>
-                  <input
-                    type="text"
-                    name="pais"
-                    value={tempData.pais}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
-                </div>
-                <div>
-                  <label className="label-style">Ciudad</label>
-                  <input
-                    type="text"
-                    name="ciudad"
-                    value={tempData.ciudad}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
-                </div>
-                <div>
-                  <label className="label-style">Teléfono</label>
-                  <input
-                    type="text"
-                    name="telefono"
-                    value={tempData.telefono}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
-                </div>
-                <div>
-                  <label className="label-style">Fecha de nacimiento</label>
-                  <input
-                    type="date"
-                    name="nacimiento"
-                    value={tempData.nacimiento}
-                    onChange={handleChange}
-                    className="modal-input"
-                  />
-                </div>
+                <div><label className="label-style">País</label><input type="text" name="pais" value={tempData.pais} onChange={handleChange} className="modal-input" /></div>
+                <div><label className="label-style">Ciudad</label><input type="text" name="ciudad" value={tempData.ciudad} onChange={handleChange} className="modal-input" /></div>
+                <div><label className="label-style">Teléfono</label><input type="text" name="telefono" value={tempData.telefono} onChange={handleChange} className="modal-input" /></div>
+                <div><label className="label-style">Fecha nacimiento</label><input type="date" name="nacimiento" value={tempData.nacimiento} onChange={handleChange} className="modal-input" /></div>
               </div>
               <div className="modal-footer">
-                <button
-                  onClick={() => setShowEditModal(false)}
-                  className="cancel-button"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => handleGuardar("perfil")}
-                  className="save-button"
-                >
-                  Guardar Cambios
-                </button>
+                <button onClick={() => setShowEditModal(false)} className="cancel-button">Cancelar</button>
+                <button onClick={() => handleGuardar("perfil")} className="save-button">Guardar</button>
               </div>
             </div>
           </div>
         )}
 
-        {/* MODAL: SEGURIDAD */}
         {showPassModal && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h2 className="card-title" style={{ marginBottom: "20px" }}>
-                Seguridad
-              </h2>
+              <h2 className="card-title">Seguridad</h2>
               <label className="label-style">Contraseña Actual</label>
-              <input
-                type="password"
-                value={passCheck.actual}
-                onChange={(e) =>
-                  setPassCheck({ ...passCheck, actual: e.target.value })
-                }
-                className="modal-input"
-                placeholder="Ingresa tu clave"
-              />
+              <input type="password" value={passCheck.actual} onChange={(e) => setPassCheck({ ...passCheck, actual: e.target.value })} className="modal-input" />
               <label className="label-style">Nueva Contraseña</label>
-              <input
-                type="password"
-                value={passCheck.nueva}
-                onChange={(e) =>
-                  setPassCheck({ ...passCheck, nueva: e.target.value })
-                }
-                className="modal-input"
-                placeholder="Nueva clave"
-              />
+              <input type="password" value={passCheck.nueva} onChange={(e) => setPassCheck({ ...passCheck, nueva: e.target.value })} className="modal-input" />
               <div className="modal-footer">
-                <button
-                  onClick={() => setShowPassModal(false)}
-                  className="cancel-button"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => handleGuardar("pass")}
-                  className="save-button"
-                >
-                  Actualizar
-                </button>
+                <button onClick={() => setShowPassModal(false)} className="cancel-button">Cancelar</button>
+                <button onClick={() => handleGuardar("pass")} className="save-button">Actualizar</button>
               </div>
             </div>
           </div>
         )}
 
-        {/* MODAL: DATOS PERSONALES */}
         {showDocsModal && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h2 className="card-title" style={{ marginBottom: "20px" }}>
-                Datos Personales
-              </h2>
-              <label className="label-style">Número de Pasaporte</label>
-              <input
-                type="text"
-                name="pasaporte"
-                value={tempData.pasaporte}
-                onChange={handleChange}
-                className="modal-input"
-              />
+              <h2 className="card-title">Datos Personales</h2>
+              <label className="label-style">Pasaporte</label>
+              <input type="text" name="pasaporte" value={tempData.pasaporte} onChange={handleChange} className="modal-input" />
               <label className="label-style">DNI</label>
-              <input
-                type="text"
-                name="dni"
-                value={tempData.dni}
-                onChange={handleChange}
-                className="modal-input"
-              />
+              <input type="text" name="dni" value={tempData.dni} onChange={handleChange} className="modal-input" />
               <div className="modal-footer">
-                <button
-                  onClick={() => setShowDocsModal(false)}
-                  className="cancel-button"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => handleGuardar("docs")}
-                  className="save-button"
-                >
-                  Guardar
-                </button>
+                <button onClick={() => setShowDocsModal(false)} className="cancel-button">Cancelar</button>
+                <button onClick={() => handleGuardar("docs")} className="save-button">Guardar</button>
               </div>
             </div>
           </div>
