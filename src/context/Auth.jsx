@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-// Se crea la variable Global AuthContext
 // AuthContext.Provider -> Insertar datos en la variable
 // AuthContext.Consumer -> Consulta datos de la variable
 export const AuthContext = createContext();
@@ -28,8 +27,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('usuarioTuriBus');
   };
 
+  const actualizarUsuario = (datosActualizados) => {
+    setUsuario(datosActualizados);
+    localStorage.setItem('usuarioTuriBus', JSON.stringify(datosActualizados));
+    console.log("Contexto actualizado con:", datosActualizados);
+  };
+
   return (
-    <AuthContext.Provider value={{ usuario, login, logout }}>
+    <AuthContext.Provider value={{ usuario, login, logout, actualizarUsuario }}>
       {children}
     </AuthContext.Provider>
   );

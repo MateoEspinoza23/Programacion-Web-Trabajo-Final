@@ -1,82 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import "./Historial.css"; // Importación del CSS separado
+import "./Historial.css";
+
+import { AuthContext } from "../../context/Auth"; 
+import { ReservaContext } from "../../context/ReservaContext";
 
 function Historial() {
   const navigate = useNavigate();
 
   const [fecha, setFecha] = useState("");
   const [busqueda, setBusqueda] = useState("");
-  const [tipoFiltro, setTipoFiltro] = useState("Todos");
-  const [estadoFiltro, setEstadoFiltro] = useState("Todos");
+  const { usuario: usuarioGlobal } = useContext(AuthContext); 
+  const { reservas: reservasGlobales } = useContext(ReservaContext);
 
-  // DATA: Mantenida íntegramente
-  const [reservas, setReservas] = useState([
-    {
-      id: "VM1101",
-      hotel: "Santuario de Machu Picchu",
-      tipo: "Viaje",
-      imagen: "/picchu.jpg",
-      fecha: "2024-05-20",
-      fechaVista: "20 de mayo, 2024",
-      estado: "Completado",
-      precio: "S/ 450.00",
-      ubicacion: "Cusco, Perú",
-      personas: "1 persona",
-    },
-    {
-      id: "VM1102",
-      hotel: "Sobrevuelo Líneas de Nazca",
-      tipo: "Viaje",
-      imagen: "/nazca.jpg",
-      fecha: "2024-06-15",
-      fechaVista: "15 de junio, 2024",
-      estado: "Completado",
-      precio: "S/ 380.00",
-      ubicacion: "Ica, Perú",
-      personas: "2 personas",
-    },
-    {
-      id: "VM1103",
-      hotel: "Lago Titicaca e Islas",
-      tipo: "Viaje",
-      imagen: "/titi.jpg",
-      fecha: "2024-07-10",
-      fechaVista: "10 de julio, 2024",
-      estado: "Cancelado",
-      precio: "S/ 220.00",
-      ubicacion: "Puno, Perú",
-      personas: "1 persona",
-    },
-    {
-      id: "VM1104",
-      hotel: "Ciudadela de Chan Chan",
-      tipo: "Viaje",
-      imagen: "/chan.jpg",
-      fecha: "2024-08-05",
-      fechaVista: "05 de agosto, 2024",
-      estado: "Próximo viaje",
-      precio: "S/ 150.00",
-      ubicacion: "Trujillo, Perú",
-      personas: "1 persona",
-    },
-    {
-      id: "VM1105",
-      hotel: "City Tour Lima Colonial",
-      tipo: "Viaje",
-      imagen: "/lima.jpg",
-      fecha: "2024-09-12",
-      fechaVista: "12 de septiembre, 2024",
-      estado: "Próximo viaje",
-      precio: "S/ 120.00",
-      ubicacion: "Lima, Perú",
-      personas: "3 personas",
-    },
-  ]);
-
+  const [reservas, setReservas] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [idAEliminar, setIdAEliminar] = useState(null);
+
+  // --- NUEVOS ESTADOS PARA LA VENTANITA DE DETALLES ---
+  const [reservaSeleccionada, setReservaSeleccionada] = useState(null);
+  const [mostrarModalDetalle, setMostrarModalDetalle] = useState(false);
+
+  useEffect(() => {
+    if (usuarioGlobal && reservasGlobales) {
+      const filtradas = reservasGlobales
+        .filter((res) => res.usuarioEmail === usuarioGlobal.correo)
+        .map((res) => {
+          
+          let foto = "/default.jpg"; 
+          if (res.destino === "Machu Picchu") foto = "/picchu.jpg";
+          if (res.destino === "Líneas de Nazca") foto = "/nazca.jpg"; 
+          if (res.destino === "Montaña de 7 Colores") foto = "/7colores.jpg";
+          
+          // Retornamos la reserva con la nueva propiedad 'imagen'
+          return { ...res, imagen: foto };
+        });
+      setReservas(filtradas);
+    }
+  }, [usuarioGlobal, reservasGlobales]);
 
   const abrirConfirmacion = (id) => {
     setIdAEliminar(id);
@@ -84,17 +46,21 @@ function Historial() {
   };
 
   const confirmarEliminacion = () => {
-    setReservas(reservas.filter((res) => res.id !== idAEliminar));
+    setReservas(reservas.filter((res) => res.idReserva !== idAEliminar));
     setMostrarModal(false);
+  };
+
+  // --- FUNCIÓN PARA ABRIR LA VENTANITA ---
+  const verDetalles = (res) => {
+    setReservaSeleccionada(res);
+    setMostrarModalDetalle(true);
   };
 
   // Lógica de filtrado
   const reservasFiltradas = reservas.filter((res) => {
-    const coincideBusqueda = res.hotel.toLowerCase().includes(busqueda.toLowerCase());
-    const coincideTipo = tipoFiltro === "Todos" || res.tipo === tipoFiltro;
-    const coincideEstado = estadoFiltro === "Todos" || res.estado === estadoFiltro;
-    const coincideFecha = fecha === "" || res.fecha === fecha;
-    return coincideBusqueda && coincideTipo && coincideEstado && coincideFecha;
+    const coincideBusqueda = res.destino?.toLowerCase().includes(busqueda.toLowerCase());
+    const coincideFecha = fecha === "" || res.fechaViaje === fecha;
+    return coincideBusqueda && coincideFecha;
   });
 
   return (
@@ -104,7 +70,7 @@ function Historial() {
       <div className="historial-main-content">
         <h1 className="historial-title">Tu Historial</h1>
 
-        {/* FILTROS SUPERIORES */}
+        {/* FILTROS */}
         <div className="filtros-superiores">
           <div className="filter-group">
             <label className="label-style">Fecha:</label>
@@ -129,8 +95,6 @@ function Historial() {
             onClick={() => {
               setFecha("");
               setBusqueda("");
-              setTipoFiltro("Todos");
-              setEstadoFiltro("Todos");
             }}
             className="boton-gris"
           >
@@ -138,54 +102,20 @@ function Historial() {
           </button>
         </div>
 
-        {/* TABS Y SELECTOR ESTADO */}
-        <div className="tab-container">
-          <div>
-            {["Todos", "Hotel", "Viaje"].map((t) => (
-              <button
-                key={t}
-                onClick={() => setTipoFiltro(t)}
-                className="tab-button"
-                style={{
-                  borderBottom: tipoFiltro === t ? "3px solid #0ea5a8" : "none",
-                  color: tipoFiltro === t ? "#0ea5a8" : "#64748b",
-                }}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <label style={{ fontWeight: "bold", color: "#444", fontSize: "14px" }}>
-              Estado:
-            </label>
-            <select
-              value={estadoFiltro}
-              onChange={(e) => setEstadoFiltro(e.target.value)}
-              className="select-style"
-            >
-              <option value="Todos">Todos</option>
-              <option value="Completado">Completado</option>
-              <option value="Cancelado">Cancelado</option>
-              <option value="Próximo viaje">Próximo viaje</option>
-            </select>
-          </div>
-        </div>
-
         {/* LISTADO DE TARJETAS */}
         <div className="reserva-list">
           {reservasFiltradas.map((res) => (
-            <div key={res.id} className="card-reserva">
-              <img src={res.imagen} alt={res.hotel} className="card-image" />
+            <div key={res.idReserva} className="card-reserva">
+              <img src={res.imagen} alt={res.destino} className="card-image" />
               <div style={{ flex: 2 }}>
-                <h3 className="hotel-title">{res.hotel}</h3>
+                <h3 className="hotel-title">{res.destino}</h3> 
                 <p className="detail-text">📍 {res.ubicacion}</p>
-                <p className="detail-text">📅 {res.fechaVista}</p>
-                <p className="detail-text">🆔 Reserva #{res.id}</p>
+                <p className="detail-text">📅 {res.fechaViaje}</p>
+                <p className="detail-text">🆔 Reserva #{res.idReserva}</p>
               </div>
+              
               <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-                <span
-                  className={`badge-base ${
+                <span className={`badge-base ${
                     res.estado === "Completado" 
                       ? "badge-completado" 
                       : res.estado === "Cancelado" 
@@ -196,24 +126,23 @@ function Historial() {
                   {res.estado}
                 </span>
               </div>
+
               <div className="right-side-card">
                 <div style={{ textAlign: "right", marginBottom: "10px" }}>
-                  <p className="price-text">{res.precio}</p>
+                  <p className="price-text">S/ {res.totalPagar}</p>
                   <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748b" }}>
                     {res.personas}
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: "8px" }}>
                   <button
-                    onClick={() =>
-                      navigate("/detalle-reserva", { state: { reserva: res } })
-                    }
+                    onClick={() => verDetalles(res)} // <-- CAMBIADO PARA ABRIR VENTANITA
                     className="outline-button-details"
                   >
                     Ver detalles
                   </button>
                   <button
-                    onClick={() => abrirConfirmacion(res.id)}
+                    onClick={() => abrirConfirmacion(res.idReserva)} 
                     className="delete-icon-button"
                   >
                     🗑️
@@ -225,22 +154,88 @@ function Historial() {
         </div>
       </div>
 
-      {/* MODAL ELIMINAR */}
+      {/* --- MODAL ELIMINAR (Ya lo tenías) --- */}
       {mostrarModal && (
         <div className="modal-overlay">
           <div className="modal-confirm-content">
             <h3>¿Estás seguro?</h3>
             <p>¿Realmente deseas eliminar esta reserva?</p>
             <div className="modal-footer">
-              <button
-                onClick={() => setMostrarModal(false)}
-                className="btn-cancelar-modal"
-              >
-                No
+              <button onClick={() => setMostrarModal(false)} className="btn-cancelar-modal">No</button>
+              <button onClick={confirmarEliminacion} className="btn-eliminar-modal">Sí, eliminar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* VENTANITA DE DETALLES MEJORADA */}
+      {mostrarModalDetalle && reservaSeleccionada && (
+        <div className="modal-overlay">
+          <div className="modal-detalle-container">
+            <div className="modal-detalle-header">
+              <button onClick={() => setMostrarModalDetalle(false)} className="btn-volver">
+                ← Volver al historial
               </button>
-              <button onClick={confirmarEliminacion} className="btn-eliminar-modal">
-                Sí, eliminar
-              </button>
+              <h2>Detalle de reserva</h2>
+              <span className="reserva-id-tag">Reserva #{reservaSeleccionada.idReserva} 📋</span>
+            </div>
+
+            <div className="modal-detalle-body">
+              {/* Info Principal */}
+              <div className="detalle-main-info">
+                <div className="reserva-card-horizontal">
+                    <img src={reservaSeleccionada.imagen} alt={reservaSeleccionada.destino} className="card-image" />                  <div className="reserva-card-text">
+                    <span className="badge-estado-detalle">{reservaSeleccionada.estado}</span>
+                    <h3>{reservaSeleccionada.destino}</h3>
+                    <p>📍 Ubicación: {reservaSeleccionada.ubicacion}</p>
+                    <p>📅 Fecha: {reservaSeleccionada.fechaViaje}</p>
+                    <p>👤 {reservaSeleccionada.personas}</p>
+                  </div>
+                  <div className="reserva-card-price">
+                    <p>Total pagado</p>
+                    <span>S/ {reservaSeleccionada.totalPagar}</span>
+                  </div>
+                </div>
+
+                <div className="informacion-adicional-box">
+                  <h4>Información de la reserva</h4>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span>Fecha de reserva:</span>
+                      <p>{reservaSeleccionada.fechaReserva || "10/11/2024"}</p>
+                    </div>
+                    <div className="info-item">
+                      <span>Método de pago:</span>
+                      <p>Tarjeta Débito/Crédito</p>
+                    </div>
+                    <div className="info-item">
+                      <span>Pago realizado:</span>
+                      <p>{reservaSeleccionada.fechaPago || reservaSeleccionada.fechaViaje}</p>
+                    </div>
+                    <div className="info-item">
+                      <span>Código de reserva:</span>
+                      <p>VM{reservaSeleccionada.idReserva}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resumen de Pago */}
+              <div className="detalle-resumen-pago">
+                <h4>Resumen de pago</h4>
+                <div className="pago-row">
+                  <span>Precio del tour</span>
+                  <span>S/ {(reservaSeleccionada.totalPagar * 0.9).toFixed(2)}</span>
+                </div>
+                <div className="pago-row">
+                  <span>Impuestos y cargos</span>
+                  <span>S/ {(reservaSeleccionada.totalPagar * 0.1).toFixed(2)}</span>
+                </div>
+                <div className="pago-total-row">
+                  <span>Total pagado</span>
+                  <span className="total-highlight">S/ {reservaSeleccionada.totalPagar}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
