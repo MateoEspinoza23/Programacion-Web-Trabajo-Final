@@ -14,8 +14,7 @@ function Sidebar() {
     { name: "Mi Perfil", path: "/perfil", icon: "👤" },
     { name: "Eventos y Promos", path: "/Eventos", icon: "🎉" },
     { name: "Reservas", path: "/reservas", icon: "🎟️" },
-    { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
-    { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },
+    { name: "Soporte Técnico", path: "/Asistencia", icon: "⚙️" },
     { name: "Historial Reservas", path: "/historial", icon: "📅" },
     { name: "Administración.", path: "/admin", icon: "📇" },
   ];

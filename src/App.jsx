@@ -3,6 +3,7 @@ import MainLayout from './componentes/MainLayout';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Reserva from "./componentes/Reserva";
 import AdminLugares from './componentes/COMPO_PESTAÑAS/AdminLugares';
+import Asistencia_1 from './componentes/Asistencia';
 
 // Componentes globales del equipo
 import Home from './componentes/Home';
@@ -10,6 +11,8 @@ import Login from './componentes/LoginUsuario';
 import Asistencia from './componentes/Asistencia';
 import RegistrarUsuario from './componentes/RegistrarUsuario';
 import Perfil from './componentes/Angela/Perfil';
+import Historial from './componentes/Angela/Historial';
+
 
 // Componentes desarrollados por Daniel Sandoval
 import ReservaCheckout from './pages/Reservas/ReservaCheckout';
@@ -34,6 +37,8 @@ function App() {
           <Route path="/Eventos" element={<Eventos />} />
           <Route path="/admin/lugares" element={<AdminLugares />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/historial" element={<Historial />} />
+          <Route path="/Asistencia" element={<Asistencia_1 />} />
 
         </Routes>
       </MainLayout>
