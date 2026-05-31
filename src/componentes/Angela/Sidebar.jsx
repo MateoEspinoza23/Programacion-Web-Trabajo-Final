@@ -22,11 +22,7 @@ function Sidebar() {
   return (
     <div className="sidebar-container">
       <div className="logo-section" onClick={() => navigate("/")} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 0', cursor: 'pointer' }}>
-        <img
-          src="/Rumbo_Infinito.png"
-          alt="TuriBus Logo"
-          style={{ height: '95px', width: 'auto', objectFit: 'contain' }}
-        />
+        <p>TURI BUS</p>
       </div>
 
       <nav className="nav-container">
