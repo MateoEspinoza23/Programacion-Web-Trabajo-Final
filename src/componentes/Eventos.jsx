@@ -5,7 +5,7 @@ Card, CardMedia, CardContent,Button, Chip, Grid} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import eventos from '../data/eventos.json';
+import eventos from '../data/Eventos.json';
 import './Eventos.css';
 
 const Eventos = () => {
