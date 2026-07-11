@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Typography, TextField, Button, Alert, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import usuarios from '../data/usuarios.json';
 import './RegistrarUsuario.css';
 
 const RegistrarUsuario = () => {
@@ -24,7 +23,7 @@ const RegistrarUsuario = () => {
     const handleContraseña = (e) => { setContraseña(e.target.value); setErrorContraseña(''); };
     const handleContraseña2 = (e) => { setContraseña2(e.target.value); setErrorContraseña2(''); };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let valido = true;
         if (!nombre.trim()) {
             setErrorNombre('El nombre es obligatorio'); valido = false; 
@@ -44,20 +43,42 @@ const RegistrarUsuario = () => {
         
         if (!valido) return;
 
-        const existeEnJSON = usuarios.find(u => u.correo === correo);
-        const existeEnLocal = localStorage.getItem('user_email') === correo;
-        if (existeEnJSON || existeEnLocal) {
-            setError('Ese correo ya está registrado.'); 
-            return; 
+        try {
+
+            const respuesta = await fetch("http://localhost:3000/api/v1/usuarios", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nombre: nombre.trim(),
+                    correo: correo.trim(),
+                    contraseña: contraseña,
+                    telefono: "",
+                    pais: "",
+                    ciudad: "",
+                    fechaNacimiento: null,
+                    dni: "",
+                    pasaporte: "",
+                    foto: ""
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            if (!respuesta.ok) {
+                setError(resultado.message || "No se pudo registrar el usuario.");
+                return;
+            }
+
+            setSuccess(true);
+            setTimeout(() => navigate("/LoginUsuario"), 1500);
+
+        } catch (error) {
+            console.error(error);
+            setError("Error al conectar con el servidor.");
         }
-
-        localStorage.setItem('user_name', nombre.trim());
-        localStorage.setItem('user_email', correo.trim());
-        localStorage.setItem('user_password', contraseña);
-        setSuccess(true);
-        setTimeout(() => navigate('/LoginUsuario'), 1500);
     };
-
     return (
         <div className="registro-page">
             <Card className="registro-card">
