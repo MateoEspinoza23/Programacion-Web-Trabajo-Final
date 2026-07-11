@@ -7,24 +7,23 @@ function Sidebar() {
   const location = useLocation();
 
   // Configuración de rutas (Mantenida intacta)
-  const menuItems = [
-    { name: "Inicio", path: "/", icon: "🏠" },
-    { name: "Crear Cuenta", path: "/RegistrarUsuario", icon: "🔑" },
-    { name: "Inicio de Sesión", path: "/LoginUsuario", icon: "🔒" },
-    { name: "Mi Perfil", path: "/perfil", icon: "👤" },
-    { name: "Eventos y Promos", path: "/Eventos", icon: "🎉" },
-    { name: "Reservas", path: "/reservas", icon: "🎟️" },
-    { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
-    { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },
-    { name: "Historial Reservas", path: "/historial", icon: "📅" },
-    { name: "Administración.", path: "/admin", icon: "📇" },
-  ];
+const menuItems = [
+  { name: "Inicio", path: "/", icon: "🏠" },
+  { name: "Crear Cuenta", path: "/RegistrarUsuario", icon: "🔑" },
+  { name: "Inicio de Sesión", path: "/LoginUsuario", icon: "🔒" },
+  { name: "Mi Perfil", path: "/perfil", icon: "👤" },
+  { name: "Eventos y Promos", path: "/Eventos", icon: "🎉" },
+  { name: "Reservas", path: "/reservas", icon: "🎟️" },
+  { name: "Hoteles y Destinos", path: "/admin/hoteles", icon: "🏡" },
+  { name: "Soporte Técnico", path: "/Asistencia", icon: "⚙️" },
+  { name: "Historial Reservas", path: "/historial", icon: "📅" },
+];
 
   return (
     <div className="sidebar-container">
       <div className="logo-section" onClick={() => navigate("/")} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px 0', cursor: 'pointer' }}>
         <img
-          src="/Rumbo_Infinito.png"
+          src="/logobus.jpeg"
           alt="TuriBus Logo"
           style={{ height: '95px', width: 'auto', objectFit: 'contain' }}
         />
@@ -47,7 +46,7 @@ function Sidebar() {
       </nav>
 
       <div className="footer-section">
-        <button onClick={() => navigate("/login-usuario")} className="logout-button">
+        <button onClick={() => navigate("/LoginUsuario")} className="logout-button">
           <span className="red-square"></span>
           Cerrar sesión
         </button>
