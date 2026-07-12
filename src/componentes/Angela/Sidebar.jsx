@@ -17,7 +17,7 @@ function Sidebar() {
     { name: "Hoteles y Destinos", path: "/destinos", icon: "🏡" },
     { name: "Soporte Técnico", path: "/soporte", icon: "⚙️" },
     { name: "Historial Reservas", path: "/historial", icon: "📅" },
-    { name: "Administración.", path: "/admin", icon: "📇" },
+    { name: "Administración.", path: "/admin/hoteles", icon: "📇" },
   ];
 
   return (

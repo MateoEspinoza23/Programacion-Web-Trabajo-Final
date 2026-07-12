@@ -1,14 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Box, Card, CardContent, Typography, TextField, Button, Alert, Checkbox, FormControlLabel, IconButton, InputAdornment} from '@mui/material';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    TextField,
+    Button,
+    Alert,
+    Checkbox,
+    FormControlLabel,
+    IconButton,
+    InputAdornment
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import usuarios from '../data/usuarios.json';
 import './LoginUsuario.css';
 
-import { useContext } from 'react';
 import { AuthContext } from '../context/Auth';
+import { loginUsuario } from '../services/usuarioService';
 
 const LoginUsuario = () => {
+
     const [correo, setCorreo] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [errorCorreo, setErrorCorreo] = useState('');
@@ -16,11 +28,14 @@ const LoginUsuario = () => {
     const [error, setError] = useState('');
     const [recordar, setRecordar] = useState(false);
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
+    const [cargando, setCargando] = useState(false);
+
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
 
     useEffect(() => {
         const correoRecordado = localStorage.getItem('correo-recordado');
+
         if (correoRecordado) {
             setCorreo(correoRecordado);
             setRecordar(true);
@@ -28,9 +43,9 @@ const LoginUsuario = () => {
     }, []);
 
     const handleCorreo = (e) => {
-    setCorreo(e.target.value);
-    setErrorCorreo('');
-    setError('');
+        setCorreo(e.target.value);
+        setErrorCorreo('');
+        setError('');
     };
 
     const handleContraseña = (e) => {
@@ -39,8 +54,13 @@ const LoginUsuario = () => {
         setError('');
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+
         let valido = true;
+
+        setError('');
+        setErrorCorreo('');
+        setErrorContraseña('');
 
         if (!correo.trim()) {
             setErrorCorreo('El correo es obligatorio');
@@ -50,102 +70,188 @@ const LoginUsuario = () => {
             valido = false;
         }
 
-        if (!contraseña) {
+        if (!contraseña.trim()) {
             setErrorContraseña('La contraseña es obligatoria');
             valido = false;
         }
 
         if (!valido) return;
 
-        if (recordar) localStorage.setItem('correo-recordado', correo);
-        else          localStorage.removeItem('correo-recordado');
+        if (recordar) {
+            localStorage.setItem('correo-recordado', correo);
+        } else {
+            localStorage.removeItem('correo-recordado');
+        }
 
-        // Buscar en el JSON y también en localStorage (usuarios registrados)
-        const usuarioJSON = usuarios.find(
-        (u) => u.correo === correo && u.contraseña === contraseña
-        );
+        try {
 
-        const correoLocal    = localStorage.getItem('user_email');
-        const contraseñaLocal = localStorage.getItem('user_password');
-        const usuarioLocal   = correo === correoLocal && contraseña === contraseñaLocal;
+            setCargando(true);
 
-        if (usuarioJSON || usuarioLocal) {
+            const usuario = await loginUsuario(
+                correo.trim(),
+                contraseña.trim()
+            );
+
             const datosUsuario = {
-                correo: correo,
-                nombre: usuarioJSON ? usuarioJSON.nombre : localStorage.getItem('user_name') || 'Usuario TuriBus',
-                rol: correo === 'admin@turibus.com' ? 'admin' : 'cliente' // 
+                ...usuario,
+                rol:
+                    usuario.correo === 'admin@turismo.com'
+                        ? 'admin'
+                        : 'cliente'
             };
 
             login(datosUsuario);
 
             if (datosUsuario.rol === 'admin') {
-                navigate('/admin/dashboard'); // Si eres tú, te manda directo a tu panel asimétrico
+                navigate('/admin/hoteles');
             } else {
-                navigate('/'); // Si es cliente común, al Home
+                navigate('/');
             }
-        } else {
-            setError('Usuario o contraseña incorrectos.');
+
+        } catch (err) {
+
+            console.error(err);
+
+            setError(
+                err?.response?.data?.message ||
+                'Usuario o contraseña incorrectos.'
+            );
+
+        } finally {
+
+            setCargando(false);
+
         }
+
     };
 
     return (
         <Box className="login-page">
-        <Card className="login-card">
-            <CardContent>
-            <Typography variant="h5" className="login-titulo">
-                Iniciar sesión
-            </Typography>
+            <Card className="login-card">
+                <CardContent>
 
-            {error && <Alert severity="error" className="login-alerta">{error}</Alert>}
+                    <Typography
+                        variant="h5"
+                        className="login-titulo"
+                    >
+                        Iniciar sesión
+                    </Typography>
 
-            <TextField
-                fullWidth label="Correo" type="email" variant="outlined" size="small"
-                className="login-input"
-                value={correo}
-                onChange={handleCorreo}
-                error={!!errorCorreo}
-                helperText={errorCorreo}
-            />
+                    {error && (
+                        <Alert
+                            severity="error"
+                            className="login-alerta"
+                        >
+                            {error}
+                        </Alert>
+                    )}
 
-            <TextField
-                fullWidth label="Contraseña" variant="outlined" size="small"
-                className="login-input"
-                type={mostrarContraseña ? 'text' : 'password'}
-                value={contraseña}
-                onChange={handleContraseña}
-                error={!!errorContraseña}
-                helperText={errorContraseña}
-                slotProps={{
-                input: {
-                    endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton onClick={() => setMostrarContraseña(!mostrarContraseña)} edge="end">
-                        {mostrarContraseña ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
-                    )
-                }
-                }}
-            />
+                    <TextField
+                        fullWidth
+                        label="Correo"
+                        type="email"
+                        variant="outlined"
+                        size="small"
+                        className="login-input"
+                        value={correo}
+                        onChange={handleCorreo}
+                        error={!!errorCorreo}
+                        helperText={errorCorreo}
+                    />
 
-            <FormControlLabel
-                className="login-recordar"
-                control={<Checkbox checked={recordar} onChange={e => setRecordar(e.target.checked)} size="small" />}
-                label={<Typography variant="body2">Recordar usuario</Typography>}
-            />
+                    <TextField
+                        fullWidth
+                        label="Contraseña"
+                        variant="outlined"
+                        size="small"
+                        className="login-input"
+                        type={
+                            mostrarContraseña
+                                ? 'text'
+                                : 'password'
+                        }
+                        value={contraseña}
+                        onChange={handleContraseña}
+                        error={!!errorContraseña}
+                        helperText={errorContraseña}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() =>
+                                                setMostrarContraseña(
+                                                    !mostrarContraseña
+                                                )
+                                            }
+                                            edge="end"
+                                        >
+                                            {mostrarContraseña ? (
+                                                <VisibilityOff />
+                                            ) : (
+                                                <Visibility />
+                                            )}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }
+                        }}
+                    />
 
-            <Button fullWidth variant="contained" className="login-boton" onClick={handleSubmit}>
-                Entrar
-            </Button>
+                    <FormControlLabel
+                        className="login-recordar"
+                        control={
+                            <Checkbox
+                                checked={recordar}
+                                onChange={(e) =>
+                                    setRecordar(
+                                        e.target.checked
+                                    )
+                                }
+                                size="small"
+                            />
+                        }
+                        label={
+                            <Typography variant="body2">
+                                Recordar usuario
+                            </Typography>
+                        }
+                    />
 
-            <Typography variant="body2" className="login-switch">
-                ¿No tienes cuenta?{' '}
-                <span onClick={() => navigate('/RegistrarUsuario')}>Regístrate</span>
-            </Typography>
-            </CardContent>
-        </Card>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        className="login-boton"
+                        onClick={handleSubmit}
+                        disabled={cargando}
+                    >
+                        {cargando
+                            ? 'Iniciando sesión...'
+                            : 'Entrar'}
+                    </Button>
+
+                    <Typography
+                        variant="body2"
+                        className="login-switch"
+                    >
+                        ¿No tienes cuenta?{' '}
+                        <span
+                            onClick={() =>
+                                navigate('/RegistrarUsuario')
+                            }
+                            style={{
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Regístrate
+                        </span>
+                    </Typography>
+
+                </CardContent>
+            </Card>
         </Box>
     );
+
 };
 
 export default LoginUsuario;

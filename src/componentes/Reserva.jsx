@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createReserva } from '../services/reservaService'; // Asegúrate de tener este servicio para manejar la reserva
 import { useLocation, useParams } from 'react-router-dom';
 import { TextField, Button, MenuItem, Box, Typography, Paper, Grid } from '@mui/material';
 
@@ -20,15 +21,23 @@ const Reserva = () => {
   const nombreDestino = destinoData?.nombre || destino;
   const imagenFondo = destinoData?.img || 'https://images.unsplash.com/photo-1526392060635-9d6019884377';
   const descripcionDestino = destinoData?.descripcion || 'Disfruta de un viaje inolvidable con TuriBus.';
+  const fechaRegistro = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
 
+  const usuarioActual = JSON.parse(
+    localStorage.getItem("usuarioTuriBus")
+  );
+
+  const generarCodigoReserva = () => {
+    return "RES-" + Date.now();
+  };
   // Simulación de un bus de 24 asientos (true = ocupado por otro usuario, false = disponible)
   const [mapaAsientos] = useState([
-    { id: '1A', ocupado: false }, { id: '1B', ocupado: true },  { id: '1C', ocupado: false }, { id: '1D', ocupado: false },
-    { id: '2A', ocupado: false }, { id: '2B', ocupado: false }, { id: '2C', ocupado: true },  { id: '2D', ocupado: false },
-    { id: '3A', ocupado: true },  { id: '3B', ocupado: false }, { id: '3C', ocupado: false }, { id: '3D', ocupado: false },
+    { id: '1A', ocupado: false }, { id: '1B', ocupado: true }, { id: '1C', ocupado: false }, { id: '1D', ocupado: false },
+    { id: '2A', ocupado: false }, { id: '2B', ocupado: false }, { id: '2C', ocupado: true }, { id: '2D', ocupado: false },
+    { id: '3A', ocupado: true }, { id: '3B', ocupado: false }, { id: '3C', ocupado: false }, { id: '3D', ocupado: false },
     { id: '4A', ocupado: false }, { id: '4B', ocupado: false }, { id: '4C', ocupado: false }, { id: '4D', ocupado: true },
     { id: '5A', ocupado: false }, { id: '5B', ocupado: false }, { id: '5C', ocupado: false }, { id: '5D', ocupado: false },
-    { id: '6A', ocupado: true },  { id: '6B', ocupado: true },  { id: '6C', ocupado: false }, { id: '6D', ocupado: false },
+    { id: '6A', ocupado: true }, { id: '6B', ocupado: true }, { id: '6C', ocupado: false }, { id: '6D', ocupado: false },
   ]);
 
   // Al dar clic en "Confirmar y ver precios"
@@ -56,12 +65,64 @@ const Reserva = () => {
     }
   };
 
-  const finalizarCompra = () => {
-    if (asientosSeleccionados.length !== Number(pasajeros)) {
-      alert(`Por favor, selecciona los ${pasajeros} asientos para tus pasajeros antes de continuar.`);
-      return;
+  const finalizarCompra = async () => {
+
+    try {
+
+
+      console.log("LOCALSTORAGE:");
+      console.log(localStorage.getItem("usuarioTuriBus"));
+
+      const usuarioActual = JSON.parse(localStorage.getItem("usuarioTuriBus"));
+
+      console.log("USUARIO ACTUAL:");
+      console.log(usuarioActual);
+
+      const reserva = {
+
+        idReserva: generarCodigoReserva(),
+
+        usuarioEmail: usuarioActual?.correo || "",
+
+        destino: nombreDestino,
+
+        fechaViaje: fecha,
+
+        cantidadPasajeros: Number(pasajeros),
+
+        tipoBoleto,
+
+        asientos: asientosSeleccionados,
+
+        totalPagar:
+          tipoBoleto === "VIP"
+            ? Number(pasajeros) * 45
+            : tipoBoleto === "Premium"
+              ? Number(pasajeros) * 90
+              : Number(pasajeros) * 15,
+
+        fechaRegistro
+      };
+
+      console.log("RESERVA A ENVIAR:", reserva);
+      await createReserva(reserva);
+
+      alert("Reserva registrada correctamente.");
+
+      navigate("/checkout", {
+        state: {
+          reserva
+        }
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("No se pudo registrar la reserva.");
+
     }
-    alert(`¡Reserva Exitosa!\nDestino: ${nombreDestino}\nAsientos: ${asientosSeleccionados.join(', ')}\nTotal a pagar: $${pasajeros * 45}`);
+
   };
 
   return (
@@ -156,12 +217,12 @@ const Reserva = () => {
             <Typography variant="body1" sx={{ textAlign: 'center', color: '#38bdf8', mb: 1, fontWeight: '500' }}>
               Pasajeros: {pasajeros} | Seleccionados: {asientosSeleccionados.length} de {pasajeros}
             </Typography>
-            
+
             {/* Pequeña Leyenda Visual */}
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 3, fontSize: '12px' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: 'rgba(255,255,255,0.2)', border: '1px solid #fff', borderRadius: 0.5 }}/> Libre</Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: '#38bdf8', borderRadius: 0.5 }}/> Tu Selección</Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: '#ef4444', borderRadius: 0.5 }}/> Ocupado</Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: 'rgba(255,255,255,0.2)', border: '1px solid #fff', borderRadius: 0.5 }} /> Libre</Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: '#38bdf8', borderRadius: 0.5 }} /> Tu Selección</Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}><Box sx={{ width: 15, height: 15, bgcolor: '#ef4444', borderRadius: 0.5 }} /> Ocupado</Box>
             </Box>
 
             {/* CROQUIS / MAPA DEL BUS (Grid de 4 columnas) */}
@@ -170,7 +231,7 @@ const Reserva = () => {
                 {mapaAsientos.map((asiento) => {
                   const esOcupado = asiento.ocupado;
                   const esElegido = asientosSeleccionados.includes(asiento.id);
-                  
+
                   let colorFondo = 'rgba(255, 255, 255, 0.2)'; // Disponible (Blanco transparente)
                   if (esOcupado) colorFondo = '#ef4444'; // Ocupado (Rojo)
                   if (esElegido) colorFondo = '#38bdf8'; // Tu selección (Celeste Turibus)
@@ -208,17 +269,17 @@ const Reserva = () => {
 
             {/* Botoneras de Control */}
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button 
-                variant="outlined" 
-                fullWidth 
+              <Button
+                variant="outlined"
+                fullWidth
                 onClick={() => { setMostrarAsientos(false); setAsientosSeleccionados([]); }}
                 sx={{ color: '#fff', borderColor: '#fff', '&:hover': { borderColor: '#38bdf8', color: '#38bdf8' } }}
               >
                 Volver
               </Button>
-              <Button 
-                variant="contained" 
-                fullWidth 
+              <Button
+                variant="contained"
+                fullWidth
                 onClick={finalizarCompra}
                 sx={{ backgroundColor: '#38bdf8', color: '#0f172a', fontWeight: 'bold', '&:hover': { backgroundColor: '#0284c7', color: '#fff' } }}
               >

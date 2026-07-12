@@ -6,7 +6,6 @@ import AdminLugares from './componentes/COMPO_PESTAÑAS/AdminLugares';
 
 // Componentes globales del equipo
 import Home from './componentes/Home';
-import Login from './componentes/LoginUsuario';
 import Asistencia from './componentes/Asistencia';
 import RegistrarUsuario from './componentes/RegistrarUsuario';
 
@@ -27,6 +26,7 @@ function App() {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/destinos" element={<Home />} />
           <Route path="/LoginUsuario" element={<LoginUsuario />} />
           <Route path="/RegistrarUsuario" element={<RegistrarUsuario />} />
           <Route path="/Asistencia" element={<Asistencia />} />
@@ -36,8 +36,6 @@ function App() {
           <Route path="/Reserva/:destino" element={<Reserva />} />
           <Route path="/Eventos" element={<Eventos />} />
           <Route path="/admin/lugares" element={<AdminLugares />} />
-          <Route path="/perfil" element={<Perfil />} />
-
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/historial" element={<Historial />} />
 
