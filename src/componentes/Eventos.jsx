@@ -1,23 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Box, Typography, TextField, InputAdornment,Select, MenuItem, FormControl, InputLabel,
 Card, CardMedia, CardContent,Button, Chip, Grid} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import eventos from '../data/Eventos.json';
 import './Eventos.css';
 
 const Eventos = () => {
     const [busqueda, setBusqueda]       = useState('');
     const [categoria, setCategoria]     = useState('Todas');
+    const [eventos, setEventos] = useState([]);
     const navigate = useNavigate();
+        useEffect(() => {
+        const cargarEventos = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/api/v1/eventos");
+                const resultado = await response.json();
 
+                console.log("RESPUESTA API:", resultado);
+                console.log("EVENTOS:", resultado.data);
+
+                setEventos(resultado.data);
+            } catch (error) {
+                console.error("Error al cargar eventos:", error);
+            }
+        };
+
+        cargarEventos();
+    }, []);
     const categorias = ['Todas', 'Entretenimiento', 'Cultura'];
 
     const eventosFiltrados = eventos.filter((ev) => {
         const coincideBusqueda = ev.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
-                                ev.lugar.toLowerCase().includes(busqueda.toLowerCase());
+                                ev.ubicacion.toLowerCase().includes(busqueda.toLowerCase());
         const coincideCategoria = categoria === 'Todas' || ev.categoria === categoria;
         return coincideBusqueda && coincideCategoria;
     });
@@ -95,7 +111,7 @@ const Eventos = () => {
                     <Box className="evento-card-img-wrap">
                         <CardMedia
                         component="img"
-                        image={ev.img}
+                        image={ev.imagen}
                         alt={ev.titulo}
                         className="evento-card-img"
                         />
@@ -123,7 +139,7 @@ const Eventos = () => {
                         </Box>
                         <Box className="evento-info">
                         <LocationOnIcon fontSize="small" color="error" />
-                        <Typography variant="body2">{ev.lugar}</Typography>
+                        <Typography variant="body2">{ev.ubicacion}</Typography>
                         </Box>
                         <Typography variant="body2" className="evento-desc">
                         {ev.descripcion}
