@@ -1,0 +1,156 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+
+.checkout-container {
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 40px;
+}
+
+.checkout-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.checkout-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #16325B;
+    margin-bottom: 35px;
+}
+
+/* ===== GRID ===== */
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+}
+
+/* ===== TARJETAS ===== */
+
+.checkout-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+}
+
+/* ===== BOTONES ===== */
+
+.btn-primary {
+
+    width: 100%;
+
+    border: none;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background: #1976d2;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.btn-primary:hover {
+
+    background: #125ca5;
+
+    transform: translateY(-2px);
+
+}
+
+.btn-secondary {
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    border: 2px solid #1976d2;
+
+    background: white;
+
+    color: #1976d2;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.btn-secondary:hover {
+
+    background: #1976d2;
+
+    color: white;
+
+}
+
+/* ===== RESERVA VACÍA ===== */
+
+.checkout-empty {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-height: 75vh;
+
+}
+
+.checkout-empty-card {
+
+    width: 500px;
+
+    max-width: 90%;
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .08);
+
+}
+
+.checkout-empty-icon {
+
+    font-size: 70px;
+
+    margin-bottom: 15px;
+
+}
+
+.checkout-empty-card h2 {
+
+    color: #16325B;
+
+    margin-bottom: 10px;
+
+}
+
+.checkout-empty-card p {
+
+    color: #666;
+
+    margin-bottom: 30px;
+
+    line-height: 1.7;
+
+}

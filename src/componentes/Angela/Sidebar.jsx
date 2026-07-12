@@ -37,7 +37,7 @@ function Sidebar() {
       >
 
         <img
-          src="/Rumbo_Infinito.png"
+          src="/RumboInfinitobackground.png"
           alt="TuriBus Logo"
           style={{
             height: "95px",

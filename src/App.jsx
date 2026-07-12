@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Reserva from "./componentes/Reserva";
 import AdminLugares from './componentes/COMPO_PESTAÑAS/AdminLugares';
 
+
+
 // Componentes globales del equipo
 import Home from './componentes/Home';
 import Asistencia from './componentes/Asistencia';
@@ -14,6 +16,7 @@ import ReservaCheckout from './pages/Reservas/ReservaCheckout';
 import CrudHoteles from './pages/Admin/CrudHoteles';
 import LoginUsuario from './componentes/LoginUsuario';
 import Eventos from './componentes/Eventos';
+import Soporte from './componentes/Soporte';
 
 //Componentes Angela
 import Perfil from './componentes/Angela/Perfil';
@@ -30,6 +33,7 @@ function App() {
           <Route path="/LoginUsuario" element={<LoginUsuario />} />
           <Route path="/RegistrarUsuario" element={<RegistrarUsuario />} />
           <Route path="/Asistencia" element={<Asistencia />} />
+          <Route path="/soporte" element={<Soporte />} />
 
           <Route path="/reservas" element={<ReservaCheckout />} />
           <Route path="/admin/hoteles" element={<CrudHoteles />} />

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { createReserva } from '../services/reservaService'; // Asegúrate de tener este servicio para manejar la reserva
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { TextField, Button, MenuItem, Box, Typography, Paper, Grid } from '@mui/material';
 
 const Reserva = () => {
   const { destino } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const destinoData = location.state?.destinoCompleto;
 
   // Estados del formulario original

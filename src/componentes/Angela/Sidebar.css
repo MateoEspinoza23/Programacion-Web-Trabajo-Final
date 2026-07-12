@@ -1,24 +1,39 @@
 /* Sidebar.css */
 
 .sidebar-container {
-  width: 250px;
+  width: 260px;
   height: 100vh;
-  background-color: #000000;
-  color: white;
-  display: flex;
-  flex-direction: column;
   position: fixed;
   left: 0;
   top: 0;
-  padding: 20px 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: linear-gradient(180deg,
+      #0b2545 0%,
+      #133c67 45%,
+      #0f172a 100%);
+
+  color: white;
+
+  padding: 18px 0;
+
+  box-shadow: 5px 0 20px rgba(0, 0, 0, .25);
+
   z-index: 1000;
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  padding: 0 25px 30px 25px;
-  cursor: pointer;
+  justify-content: center;
+
+  padding: 25px 15px 35px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, .15);
+
+  margin-bottom: 15px;
 }
 
 .logo-icon {
@@ -27,9 +42,16 @@
 }
 
 .logo-text {
-  font-size: 1.8rem;
-  font-weight: normal;
-  margin: 0;
+
+  font-size: 26px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #ffffff;
+
+  text-transform: uppercase;
 }
 
 .nav-container {
@@ -37,23 +59,48 @@
   display: flex;
   flex-direction: column;
   padding: 0 15px;
-  overflow-y: auto; /* Por si la lista es muy larga */
+  overflow-y: auto;
+  /* Por si la lista es muy larga */
 }
 
 .menu-button {
+
   display: flex;
+
   align-items: center;
-  padding: 10px 15px;
+
+  gap: 14px;
+
+  width: 100%;
+
+  padding: 14px 18px;
+
+  margin-bottom: 8px;
+
   border: none;
-  background: none;
+
+  border-radius: 12px;
+
+  background: transparent;
+
   color: white;
+
+  font-size: 15px;
+
+  font-weight: 500;
+
   cursor: pointer;
-  font-size: 1rem;
-  text-align: left;
-  margin-bottom: 2px;
-  transition: background 0.2s;
-  font-weight: normal;
-  border-radius: 0px;
+
+  transition: .25s;
+
+}
+
+.menu-button:hover {
+
+  background: rgba(255, 255, 255, .12);
+
+  transform: translateX(5px);
+
 }
 
 .menu-button-icon {
@@ -63,9 +110,15 @@
 
 /* Clase para el botón activo */
 .menu-button.active {
-  background-color: #5dade2;
-  font-weight: bold;
-  border-radius: 8px;
+
+  background: #1d9bf0;
+
+  color: white;
+
+  font-weight: 700;
+
+  box-shadow: 0 8px 20px rgba(29, 155, 240, .35);
+
 }
 
 .footer-section {
