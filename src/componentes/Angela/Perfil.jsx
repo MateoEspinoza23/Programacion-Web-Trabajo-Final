@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "./Sidebar";
 import "./Perfil.css"; 
 import { AuthContext } from '../../context/Auth';
-import usuariosData from "../../data/usuarios.json"; 
 
 function Perfil() {
   const { usuario: usuarioGlobal, actualizarUsuario } = useContext(AuthContext);
@@ -19,33 +18,53 @@ function Perfil() {
   const [tempData, setTempData] = useState({ ...usuario });
   const [passCheck, setPassCheck] = useState({ actual: "", nueva: "" });
 
-  useEffect(() => {
-    if (usuarioGlobal) {
-      const correoBusqueda = usuarioGlobal.correo || usuarioGlobal.email;
-      const usuarioEnEnJson = usuariosData ? usuariosData.find(u => u.correo === correoBusqueda) : null;
-      const contraReal = usuarioEnEnJson ? usuarioEnEnJson.contraseña : "";
-      const nombreArchivo = (usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : "usuario"))
-        .trim()
-        .split(" ")[0]
-        .toLowerCase();
+    useEffect(() => {
+      const cargarPerfil = async () => {
 
-      const nuevoEstado = {
-        nombre: usuarioGlobal.nombre || (usuarioEnEnJson ? usuarioEnEnJson.nombre : ""),
-        email: correoBusqueda || "",
-        telefono: usuarioGlobal.telefono || (usuarioEnEnJson ? usuarioEnEnJson.telefono : ""),
-        pais: usuarioGlobal.pais || (usuarioEnEnJson ? usuarioEnEnJson.pais : ""),
-        ciudad: usuarioGlobal.ciudad || (usuarioEnEnJson ? usuarioEnEnJson.ciudad : ""),
-        nacimiento: usuarioGlobal.nacimiento || "2000-01-01",
-        foto: `/${nombreArchivo}.jpg`,
-        dni: usuarioGlobal.dni || "",
-        password: contraReal, 
+          if (!usuarioGlobal?.id) return;
+
+          try {
+
+              const response = await fetch(
+                  `http://localhost:3000/api/v1/usuarios/${usuarioGlobal.id}`
+              );
+
+              const resultado = await response.json();
+
+              const usuarioBD = resultado.data;
+
+              const nombreArchivo = (usuarioBD.nombre || "usuario")
+                  .trim()
+                  .split(" ")[0]
+                  .toLowerCase();
+
+              const nuevoEstado = {
+                  nombre: usuarioBD.nombre || "",
+                  email: usuarioBD.correo || "",
+                  telefono: usuarioBD.telefono || "",
+                  pais: usuarioBD.pais || "",
+                  ciudad: usuarioBD.ciudad || "",
+                  nacimiento: usuarioBD.fechaNacimiento || "",
+                  foto: usuarioBD.foto || `/${nombreArchivo}.jpg`,
+                  pasaporte: usuarioBD.pasaporte || "",
+                  dni: usuarioBD.dni || "",
+                  password: usuarioBD.contraseña || ""
+              };
+
+              setUsuario(nuevoEstado);
+              setTempData(nuevoEstado);
+
+          } catch (error) {
+              console.error("Error al cargar perfil:", error);
+          }
+
       };
-      setUsuario(nuevoEstado);
-      setTempData(nuevoEstado);
-    }
+
+      cargarPerfil();
+
   }, [usuarioGlobal]);
 
-  const handleGuardar = (tipoModal) => {
+  const handleGuardar = async (tipoModal) => {
     let usuarioActualizado;
 
     if (tipoModal === "pass") {
@@ -63,7 +82,31 @@ function Perfil() {
     }
 
     setUsuario(usuarioActualizado);
+    setTempData(usuarioActualizado);
+    
+    try {
+        await fetch(`http://localhost:3000/api/v1/usuarios/${usuarioGlobal.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nombre: usuarioActualizado.nombre,
+                correo: usuarioActualizado.email,
+                contraseña: usuarioActualizado.password,
+                telefono: usuarioActualizado.telefono,
+                pais: usuarioActualizado.pais,
+                ciudad: usuarioActualizado.ciudad,
+                fechaNacimiento: usuarioActualizado.nacimiento,
+                dni: usuarioActualizado.dni,
+                pasaporte: usuarioActualizado.pasaporte,
+                foto: usuarioActualizado.foto
+            })
+        });
 
+    } catch (error) {
+        console.error("Error al actualizar el perfil:", error);
+    }
     if (actualizarUsuario) {
       actualizarUsuario({
         ...usuarioActualizado,

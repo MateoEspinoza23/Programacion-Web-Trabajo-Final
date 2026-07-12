@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Box, Card, CardContent, Typography, TextField, Button, Alert, Checkbox, FormControlLabel, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import usuarios from '../data/usuarios.json';
 import './LoginUsuario.css';
-
 import { useContext } from 'react';
 import { AuthContext } from '../context/Auth';
 
@@ -39,7 +37,7 @@ const LoginUsuario = () => {
         setError('');
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let valido = true;
 
         if (!correo.trim()) {
@@ -60,32 +58,40 @@ const LoginUsuario = () => {
         if (recordar) localStorage.setItem('correo-recordado', correo);
         else          localStorage.removeItem('correo-recordado');
 
-        // Buscar en el JSON y también en localStorage (usuarios registrados)
-        const usuarioJSON = usuarios.find(
-        (u) => u.correo === correo && u.contraseña === contraseña
-        );
+        try {
 
-        const correoLocal    = localStorage.getItem('user_email');
-        const contraseñaLocal = localStorage.getItem('user_password');
-        const usuarioLocal   = correo === correoLocal && contraseña === contraseñaLocal;
+            const response = await fetch("http://localhost:3000/api/v1/usuarios");
+            const resultado = await response.json();
 
-        if (usuarioJSON || usuarioLocal) {
+            const usuario = resultado.data.find(
+                (u) => u.correo === correo && u.contraseña === contraseña
+            );
+
+            if (!usuario) {
+                setError("Usuario o contraseña incorrectos.");
+                return;
+            }
+
             const datosUsuario = {
-                correo: correo,
-                nombre: usuarioJSON ? usuarioJSON.nombre : localStorage.getItem('user_name') || 'Usuario TuriBus',
-                rol: correo === 'admin@turibus.com' ? 'admin' : 'cliente' // 
+                id: usuario.id,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                rol: usuario.correo === "admin@turibus.com" ? "admin" : "cliente"
             };
 
             login(datosUsuario);
 
-            if (datosUsuario.rol === 'admin') {
-                navigate('/admin/dashboard'); // Si eres tú, te manda directo a tu panel asimétrico
+            if (datosUsuario.rol === "admin") {
+                navigate("/admin/dashboard");
             } else {
-                navigate('/'); // Si es cliente común, al Home
+                navigate("/");
             }
-        } else {
-            setError('Usuario o contraseña incorrectos.');
+
+        } catch (error) {
+            console.error(error);
+            setError("Error al conectar con el servidor.");
         }
+        
     };
 
     return (
